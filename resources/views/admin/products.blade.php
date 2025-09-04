@@ -1,0 +1,188 @@
+@extends('admin.app')
+
+@section('content')
+
+    <!-- Page Header with Action Buttons -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-heading font-bold">Product Management</h1>
+            <p class="text-gray-600 mt-2">Manage your product inventory</p>
+        </div>
+        <button
+            class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent mt-4 md:mt-0 flex items-center action-btn"
+            onclick="openModal('add-product-modal')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
+                <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Add New Product
+        </button>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="bg-white rounded-2xl p-4 shadow-md mb-6">
+        <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            <div class="flex-1 w-full">
+                <input type="text" placeholder="Search products..."
+                    class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+            </div>
+            <div class="flex items-center space-x-2">
+                <select
+                    class="bg-light border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option>All Categories</option>
+                    <option>Women</option>
+                    <option>Men</option>
+                    <option>Kids</option>
+                </select>
+                <select
+                    class="bg-light border-none rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option>Status: All</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                    <option>Out of Stock</option>
+                </select>
+                <button class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent action-btn">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-gray-50 text-left text-gray-500">
+                    <th class="py-4 px-6 font-medium">Product</th>
+                    <th class="py-4 px-6 font-medium">Category</th>
+                    <th class="py-4 px-6 font-medium">Price</th>
+                    <th class="py-4 px-6 font-medium">Stock</th>
+                    <th class="py-4 px-6 font-medium">Status</th>
+                    <th class="py-4 px-6 font-medium text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <tr>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg mr-4"></div>
+                            <div>
+                                <div class="font-medium">Summer Floral Dress</div>
+                                <div class="text-sm text-gray-500">#PRD-001</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">Women / Dresses</td>
+                    <td class="py-4 px-6">$59.99</td>
+                    <td class="py-4 px-6">42</td>
+                    <td class="py-4 px-6">
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex justify-end space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700 action-btn"
+                                onclick="openModal('view-product-modal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
+                                </svg>
+                            </button>
+                            <button class="text-primary hover:text-accent action-btn"
+                                onclick="openModal('edit-product-modal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83z" />
+                                </svg>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700 action-btn"
+                                onclick="openModal('delete-product-modal')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg mr-4"></div>
+                            <div>
+                                <div class="font-medium">Premium Leather Jacket</div>
+                                <div class="text-sm text-gray-500">#PRD-002</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">Men / Outerwear</td>
+                    <td class="py-4 px-6">$129.99</td>
+                    <td class="py-4 px-6">8</td>
+                    <td class="py-4 px-6">
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Low Stock</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex justify-end space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700 action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
+                                </svg>
+                            </button>
+                            <button class="text-primary hover:text-accent action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83z" />
+                                </svg>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700 action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-4 px-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg mr-4"></div>
+                            <div>
+                                <div class="font-medium">Designer Sneakers</div>
+                                <div class="text-sm text-gray-500">#PRD-003</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6">Footwear</td>
+                    <td class="py-4 px-6">$99.99</td>
+                    <td class="py-4 px-6">0</td>
+                    <td class="py-4 px-6">
+                        <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Out of Stock</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <div class="flex justify-end space-x-2">
+                            <button class="text-blue-500 hover:text-blue-700 action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
+                                </svg>
+                            </button>
+                            <button class="text-primary hover:text-accent action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83z" />
+                                </svg>
+                            </button>
+                            <button class="text-red-500 hover:text-red-700 action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+@endsection
