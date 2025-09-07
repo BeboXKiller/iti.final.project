@@ -4,13 +4,13 @@
         <div class="px-4 mb-6">
             <h3 class="text-xs uppercase text-gray-500 font-semibold pl-3">Main</h3>
         </div>
-        <a href="{{ route('Dashboard')}}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+        <a href="#" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3L2 12h3v8z" />
             </svg>
             <span>Dashboard</span>
         </a>
-        <a href="{{  route('Products') }}"
+        <a href="#"
             class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor"
