@@ -2,47 +2,47 @@
 
 use App\Http\Controllers\Website\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('/stylemart')->group(function(){
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-    Route::get('/', [UserController::class, 'index'])->name('StyleMart');
-    // Account Route
-    Route::get('/account',[UserController::class, 'account'])->name('Account');
-    // WhishList Route
-    Route::get('/whishlist',[UserController::class, 'whishlist'])->name('WhishList');
-    // Cart Route
-    Route::get('/cart',[UserController::class, 'userCart'])->name('Cart');
+// ====== Public / Unsigned Routes ======
+// Route::prefix('/stylemart')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('styleMart');
+// });
 
-    Route::get('/categories',[UserController::class, 'veiwCategory'])->name('Category');
+// ====== Authentication Routes ======
+Auth::routes(); // /login, /register, /logout, /password/reset
 
-    Route::get('/product',[UserController::class, 'veiwProduct'])->name('Product');
+// ====== User Routes ======
+Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    // Add other user routes here
+});
 
-    Route::prefix('/admin')->group(function(){ 
+// ====== Admin Routes ======
+Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    // Add other admin routes here
+});
 
-        Route::get('/',[AdminController::class, 'dashboard'])->name('Dashboard');
-
-        Route::get('/products',[AdminController::class, 'products'])->name('Products');
-
-        Route::get('/customers',[AdminController::class, 'customers'])->name('Customers');
-
-        Route::get('/orders',[AdminController::class, 'orders'])->name('Orders');
-
-        Route::get('/categories',[AdminController::class, 'categories'])->name('Categories');
-
-        Route::get('/analytics',[AdminController::class, 'analytics'])->name('Analytics');
-
-        Route::get('/reports',[AdminController::class, 'reports'])->name('Reports');
-
-        Route::get('/settings',[AdminController::class, 'settings'])->name('Settings');
-
-
-    });
-
-})->name('StyleMart'); 
-
-
-
-
-
-
+// ====== Default Redirect ======
+// Optional: redirect /home to user's dashboard
+Route::get('/home', function () {
+    if (auth()->check()) {
+        $role = auth()->user()->role;
+        if ($role === 'admin') return redirect()->route('admin.dashboard');
+        else return redirect()->route('user.dashboard');
+    }
+    return redirect('/stylemart');
+})->name('home');
