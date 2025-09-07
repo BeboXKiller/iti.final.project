@@ -28,10 +28,15 @@
                     <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
                     <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</a>
                     <div class="border-t border-gray-200 my-1"></div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
-                        <button type="submit" class="btn btn-link">Logout</button>
                     </form>
+
 
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Website\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 // ====== Public / Unsigned Routes ======
 // Route::prefix('/stylemart')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('styleMart');
+    Route::get('/', [HomeController::class, 'index'])->name('styleMart');
 // });
 
 // ====== Authentication Routes ======

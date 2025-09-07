@@ -28,42 +28,70 @@
 
             <!-- Header Actions -->
             <div class="flex items-center space-x-5">
-                <a href="#" class="text-dark hover:text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M15.71 12.71a6 6 0 1 0-7.42 0a10 10 0 0 0-6.22 8.18a1 1 0 0 0 2 .22a8 8 0 0 1 15.9 0a1 1 0 0 0 1 .89h.11a1 1 0 0 0 .88-1.1a10 10 0 0 0-6.25-8.19ZM12 12a4 4 0 1 1 4-4a4 4 0 0 1-4 4Z" />
-                    </svg>
-                </a>
-                <a href="#" class="text-dark hover:text-primary">
-                    <svg xmlns="极速加速器" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z" />
-                    </svg>
-                </a>
-                <a href="#" class="text-dark hover:text-primary relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
-                    </svg>
-                    <span
-                        class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                </a>
-            </div>
+
+    <!-- Wishlist / Heart -->
+    <a href="#" class="text-gray-800 hover:text-primary" title="Wishlist">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3a5.48 5.48 0 0 1 4.5 2.36A5.48 5.48 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+    </a>
+
+    <!-- Cart / Shopping Bag -->
+    <a href="#" class="text-gray-800 hover:text-primary relative" title="Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.82 14l.94-2h7.53l.94 2H7.82zM6 6h15l-1.35 5H7.21L6 6z" />
+        </svg>
+        <span
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            3
+        </span>
+    </a>
+
+    <!-- Profile / User Dropdown -->
+    <div class="relative group">
+        <button class="flex items-center text-gray-800 hover:text-primary focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+            </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div
+            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-150 z-50">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Account Settings</a>
+            <div class="border-t my-1"></div>
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+               class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                Logout
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
         </div>
     </div>
 
-        @php
-            
-            $i = [ 'stylemart', 'stylemart/categories' , 'stylemat/product'];
+</div>
 
-        @endphp
+        </div>
+    </div>
 
-        @if(Request()->is($i))
+    @php
 
-        @include('website.components.topBar.nav')
-            
-        @endif
-        
+    $i = [ 'stylemart', 'stylemart/categories' , 'stylemat/product'];
 
-    
+    @endphp
+
+    @if(Request()->is($i))
+
+    @include('website.components.topBar.nav')
+
+    @endif
+
+
+
 </nav>
