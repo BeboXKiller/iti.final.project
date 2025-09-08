@@ -244,4 +244,9 @@
             </table>
         </div>
     </div>
+    <script>
+
+        highlightActiveSection('dashboard');
+
+    </script>
 @endsection

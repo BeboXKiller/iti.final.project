@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Website\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +32,9 @@ Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
 });
 
 // ====== Admin Routes ======
-Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
+Route::prefix('/home')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('products', ProductController::class);
     // Add other admin routes here
 });
 
