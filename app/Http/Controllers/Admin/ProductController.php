@@ -32,34 +32,34 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
+    $validatedData = $request->validate([
+        'name' => 'required|min:3|max:100|alpha_dash:ascii',
+        'price' => 'required|numeric|decimal:2',
+        'description' => 'required|min:3|max:500|string',
+        'category_id' => 'required|exists:categories,id',
+        'quantity' => 'required|integer|max:9999',
+        'image.*' => 'image|mimes:png,jpg,heic,svg|max:2048', // لاحظ image.*
+    ]);
 
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:100|alpha_dash:ascii',
-            'price' => 'required|numeric|decimal:2',
-            'description' => 'required|min:3|max:500|string',
-            'category_id' => 'required|exists:categories,id',
-            'quantity' => 'required|integer|max:9999',
-            'image' => 'required|image|mimes:png,jpg,heic,svg|max:2048',
-        ]);
+    $photoPaths = [];
 
-        $photoPath = null;
-        if ($request->hasFile('image')) {
-            $photoPath = $request->file('image')
-                ->store('uploads/products', 'public');
-            $validatedData['image'] = $photoPath;
+    if ($request->hasFile('image')) {
+        foreach ($request->file('image') as $file) {
+            $photoPaths[] = $file->store('uploads/products', 'public');
         }
-
-        // Create the product
-        Product::create($validatedData);
-
-        // Redirect with success message
-        return redirect()->route('products.index')->with('success', 'product created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
+    $validatedData['images'] = json_encode($photoPaths);
+
+    Product::create($validatedData);
+
+    return redirect()->route('products.index')->with('success', 'Product created successfully.');
+}
+
+
+   
     public function show(Product $product)
     {
         //

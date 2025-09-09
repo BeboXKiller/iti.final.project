@@ -13,7 +13,7 @@ protected $fillable=[
 'description',
 'price',
 'quantity',
-'image',
+'images',
 ];
 
 public function category()

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return view('website.index');
+        $products=Product::all();
+        return view('website.index',compact('products'));
+        
     }
 
     public function account()

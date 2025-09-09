@@ -77,8 +77,21 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Product Images</label>
                     <div class="flex space-x-4 mt-2">
-                        <img src="{{ asset('storage/' . $product->image) }}" alt=" " class="w-20 h-20 bg-gray-200 rounded-lg">
-                        <label
+ @php
+            $images = json_decode($product->images, true);
+            $firstImage = $images[0] ?? null;
+        @endphp
+
+        @if($firstImage)
+            <img src="{{ asset('storage/' . $firstImage) }} "
+            style="width: 200px; height: 200px;" 
+                 alt="{{ $product->name }}" 
+                 class="w-full h-64 object-cover">
+        @else
+            <img src="{{ asset('default-product.png') }}" 
+                 alt="No Image" 
+                 class="w-full h-64 object-cover">
+        @endif                        <label
                             class="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
