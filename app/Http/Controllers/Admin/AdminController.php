@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -35,8 +36,14 @@ class AdminController extends Controller
 
     public function orders()
     {
-
-        return view('admin.orders');
+        $orders = Order::with('user' , 'orderItems')->get();
+        return view('admin.orders',compact('orders'));
+    }
+    public function updateOrder(Request $request, Order $order)
+    {
+        $order->status = $request->status;
+        $order->save();
+        return redirect()->back()->with('success', 'Order updated successfully!');
     }
 
     public function analytics()

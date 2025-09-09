@@ -18,7 +18,7 @@
             </svg>
             <span>Products</span>
         </a>
-        <a href="{{ '/stylemart/admin/orders' }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+        <a href="{{ route('admin.dashboard.orders') }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor"
                     d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z" />

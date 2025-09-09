@@ -35,6 +35,11 @@ Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
 Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     // Add other admin routes here
+
+    // orders page
+    Route::get('/dashboard/orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
+    Route::put('/dashboard/orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.dashboard.orders.update');
+
 });
 
 // ====== Default Redirect ======
