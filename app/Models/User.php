@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function getAvatarColorAttribute()
+    {
+        $colors = ['#f87171', '#60a5fa', '#34d399', '#fbbf24', '#a78bfa'];
+        $index = crc32($this->id . $this->email) % count($colors);
+        return $colors[$index];
+    }
 }

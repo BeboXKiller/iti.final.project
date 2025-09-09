@@ -16,6 +16,13 @@
             @include('admin.components.pagination')
         --}}
            
+            {{-- ===================================== --}}
+            {{-- @if (!Request()->is('stylemart/admin', 'stylemart/admin/categories', 'stylemart/admin/', 'stylemart/admin/analytics', 'stylemart/admin/reports', 'stylemart/admin/settings'))
+                @include('components.pagination')
+            @endif --}}
+            {{-- ===================================== --}}
+            
+
         </div>
 
     </div>
