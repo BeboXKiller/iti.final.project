@@ -10,17 +10,18 @@
     </div>
 
     <!-- Header -->
-    @include('website.shared.topBar')
-    @php
-            
-        $i = ['stylemart'];
+    @if (Request()->is('/'))
 
-    @endphp
-    <main @if(Request()->is($i)) class="" @else class="py-8" @endif>
+    
+        
+    @endif
+    @include('website.shared.topBar')
+
+    <main @if(Request()->is('/')) class="" @else class="py-8" @endif>
 
         
 
-        @if (!Request()->is($i))
+        @if (!Request()->is('/'))
             
         <!-- Breadcrumb -->
         <div class="container mx-auto px-4">

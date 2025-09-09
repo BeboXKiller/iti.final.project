@@ -1,14 +1,14 @@
 <!-- Footer -->
 @php
 
-    $i = ['stylemart', 'stylemart/categories'];
+    ;
 
 @endphp
 
-@if(Request()->is($i))
+@if(Request()->is('/'))
     <footer class="bg-primary bottom-0 text-white pt-12 pb-6">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid极速加速器-cols-4 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <div>
                     <h3 class="text-xl font-heading font-bold mb-4">StyleMart</h3>
                     <p class="mb-4">The best fashion store for everyone. Find your style with our latest collections.</p>

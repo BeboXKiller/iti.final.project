@@ -124,5 +124,7 @@
         </div>
     </div>
 
-
+    <script>
+        highlightActiveSection('categories')
+    </script>
 @endsection

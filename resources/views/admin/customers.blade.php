@@ -87,5 +87,7 @@
         @include('components.pagination')
     </div>  
 
-
+    <script>
+        highlightActiveSection('customers')
+    </script>
 @endsection

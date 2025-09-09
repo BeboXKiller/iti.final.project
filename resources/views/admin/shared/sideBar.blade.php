@@ -7,8 +7,8 @@
         </div>
         
         <!-- Dashboard -->
-        <a href="{{ route('admin.dashboard') }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" data-page="dashboard">
-        <a href="{{route('admin.dashboard')}}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+        {{-- <a href="{{ route('admin.dashboard') }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" > --}}
+        <a href="{{route('admin.dashboard')}}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" data-page="dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3L2 12h3v8z" />
             </svg>
@@ -64,7 +64,7 @@
         
         <!-- Customers -->
         
-        <a href="{{ route('admin.dashboard.orders') }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+        <a href="{{ route('admin.dashboard.orders') }}" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" data-page="orders">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor"
                     d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z" />
@@ -72,7 +72,7 @@
             <span>Orders</span>
         </a>
         <a href="{{ route('customers.index') }}"
-            class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+            class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" data-page="customers" >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
@@ -83,8 +83,8 @@
         </div>  
         <!-- Categories -->
        
-        <a href="{{ '/stylemart/admin/categories' }}"
-            class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light">
+        <a href="{{ route('categories.index') }}"
+            class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-light" data-page="categories">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-3">
                 <path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
             </svg>

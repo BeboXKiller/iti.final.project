@@ -175,4 +175,8 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        highlightActiveSection('orders')
+    </script>
 @endsection
