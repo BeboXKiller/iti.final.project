@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -21,12 +22,6 @@ class AdminController extends Controller
     }
 
 
-
-    public function customers()
-    {
-
-        return view('admin.customers');
-    }
 
     public function categories()
     {
