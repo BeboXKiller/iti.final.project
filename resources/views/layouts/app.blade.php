@@ -62,21 +62,27 @@
                                 {{ __('Logout') }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                @endguest
-            </ul>
-        </div>
-    </div>
-</nav>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="flex justify-center mt-6">
+                                {{ $customers->links('vendor.pagination.tailwind') }}
+                            </div>
+
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+
+        <main class="py-4" style="background-color: #f3f4f6; min-height: calc(100vh - 70px);">
+    @yield('content')
+</main>
+
     </div>
 </body>
 
