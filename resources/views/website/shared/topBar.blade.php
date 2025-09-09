@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="{{ '/stylemart' }}" class="text-2xl font-heading font-bold text-primary">StyleMart</a>
+                <a href="{{ route('home') }}" class="text-2xl font-heading font-bold text-primary">StyleMart</a>
             </div>
 
             <div class="hidden lg:flex flex-1 max-w-2xl mx-10">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <!-- Wishlist / Heart -->
-                <a href="#" class="text-gray-800 hover:text-primary" title="Wishlist">
+                <a href="{{ route('user.wishlist') }}" class="text-gray-800 hover:text-primary" title="Wishlist">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3a5.48 5.48 0 0 1 4.5 2.36A5.48 5.48 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -86,7 +86,7 @@
 
     @endphp
 
-    @if(Request()->is('/'))
+    @if(Request()->is('/' , 'home', 'user/dashboard'))
 
         @include('website.components.topBar.nav')
 

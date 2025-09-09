@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
     <!-- Product Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         <!-- Product Gallery -->

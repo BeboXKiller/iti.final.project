@@ -27,6 +27,7 @@ Auth::routes(); // /login, /register, /logout, /password/reset
 // ====== User Routes ======
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
     // Add other user routes here
 });
 
