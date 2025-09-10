@@ -11,14 +11,15 @@ class isAdmin
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-        return redirect('/home')->with('error', 'You are not authorized to access this page.');
+
+        // لو مش أدمن → يروح لليوزر داشبورد
+        return redirect()->route('user.dashboard')
+                         ->with('error', 'You are not authorized to access this page.');
     }
 }

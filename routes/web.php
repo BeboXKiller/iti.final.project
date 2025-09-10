@@ -4,7 +4,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Website\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{ CustomerController, AdminController, ProductController, CategoryController};
+use App\Http\Controllers\Admin\{
+    CustomerController,
+    AdminController,
+    ProductController,
+    CategoryController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,37 +21,34 @@ use App\Http\Controllers\Admin\{ CustomerController, AdminController, ProductCon
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 // ====== Public / Unsigned Routes ======
-// Route::prefix('/stylemart')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('styleMart');
-// });
+Route::get('/', [HomeController::class, 'index'])->name('styleMart');
+
 
 // ====== Authentication Routes ======
-Auth::routes(); // /login, /register, /logout, /password/reset
+ // /login, /register, /logout, /password/reset
 
 // ====== User Routes ======
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
+    Route::get('/whishlist', [UserController::class, 'whishList'])->name('user.wishlist');
+    Route::get('/category/{category}/products', [CategoryController::class, 'showProductscategories'])->name('category.products');
+    Route::get('/categories/{category}/products', [CategoryController::class, 'showProducts'])->name('categories.products');
     // Add other user routes here
 });
 
 // ====== Admin Routes ======
-Route::prefix('/home')->middleware(['auth', 'isAdmin'])->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
-    // Add other admin routes here
-    // Add other admin routes here
     Route::get('/dashboard/orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
     Route::put('/dashboard/orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.dashboard.orders.update');
-    // ============= For Cuatomers ============
     Route::resource('customers', CustomerController::class);
 });
 
 // ====== Default Redirect ======
-// Optional: redirect /home to user's dashboard
 Route::get('/home', function () {
     if (auth()->check()) {
         $role = auth()->user()->role;

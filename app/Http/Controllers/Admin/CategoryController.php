@@ -64,4 +64,17 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function showProducts(Category $category)
+    {
+        $products = $category->products; // Assuming a 'products' relationship exists in the Category model
+        return view('admin.category_products', compact('category', 'products'));
+    }
+
+    public function showProductscategories(Category $category)
+    {
+        $products = $category->products; // Assuming a 'products' relationship exists in the Category model
+        return view('admin.categories_products', compact('category', 'products'));
+    }
+
 }
