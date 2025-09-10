@@ -39,7 +39,7 @@ class ProductController extends Controller
         'description' => 'required|min:3|max:500|string',
         'category_id' => 'required|exists:categories,id',
         'quantity' => 'required|integer|max:9999',
-        'image.*' => 'image|mimes:png,jpg,heic,svg|max:2048', // لاحظ image.*
+        'image.*' => 'image|mimes:png,jpg,heic,svg|max:2048', 
     ]);
 
     $photoPaths = [];

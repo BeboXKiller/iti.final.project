@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Website\UserController;
+use App\Http\Controllers\Website\{UserController, WishlistController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{ CustomerController, AdminController, ProductController, CategoryController};
+use App\Http\Controllers\Admin\{CustomerController, AdminController, ProductController, CategoryController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,8 +26,17 @@ Auth::routes(); // /login, /register, /logout, /password/reset
 
 // ====== User Routes ======
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
+    
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
+
+    Route::controller(WishlistController::class)->group(function(){
+    Route::get('/wishlist', 'index')->name('wishlist.index');
+    Route::post('/wishlist/toggle', 'toggle')->name('wishlist.toggle');
+    Route::delete('/wishlist/{product}', 'destroy')->name('wishlist.destroy');
+    Route::delete('/wishlist', 'clear')->name('wishlist.clear');
+    Route::get('/wishlist/count', 'count')->name('wishlist.count');
+    });
+    
     // Add other user routes here
 });
 

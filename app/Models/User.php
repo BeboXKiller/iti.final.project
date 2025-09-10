@@ -59,4 +59,36 @@ class User extends Authenticatable
         $index = crc32($this->id . $this->email) % count($colors);
         return $colors[$index];
     }
+
+    /**
+     * Get the wishlist items for the user
+     */
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    /**
+     * Get wishlist products for the user
+     */
+    public function wishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists');
+    }
+
+    /**
+     * Check if user has product in wishlist
+     */
+    public function hasInWishlist($productId)
+    {
+        return $this->wishlists()->where('product_id', $productId)->exists();
+    }
+
+    /**
+     * Get user's wishlist count
+     */
+    public function getWishlistCountAttribute()
+    {
+        return $this->wishlists()->count();
+    }
 }

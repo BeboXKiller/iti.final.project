@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 @include('website.shared.header')
 
 
@@ -12,33 +13,33 @@
     <!-- Header -->
     @include('website.shared.topBar')
 
-    <main @if(Request()->is('/' , 'home', 'user/dashboard')) class="" @else class="py-8" @endif>
+    <main @if(Request()->is('/', 'home', 'user/dashboard')) class="" @else class="py-8" @endif>
 
-        
 
-        @if (!Request()->is('/' , 'home', 'user/dashboard'))
-            
-        <!-- Breadcrumb -->
-        <div class="container mx-auto px-4">
-            @include('website.shared.breadCrumb')
-            @yield('content')
 
-        </div>
-        
+        @if (!Request()->is('/', 'home', 'user/dashboard'))
+
+            <!-- Breadcrumb -->
+            <div class="container mx-auto px-4">
+                @include('website.shared.breadCrumb')
+                @yield('content')
+
+            </div>
+
         @else
 
             @yield('content')
 
         @endif
 
-        
+
 
 
     </main>
 
-    
+
     @include('website.shared.footer')
-    
+
 
     <script>
 
@@ -49,6 +50,7 @@
 
         // Mobile menu toggle would go here
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('js/wishlist.js') }}"></script>
 </body>
-
 </html>
