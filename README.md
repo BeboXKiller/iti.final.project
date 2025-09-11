@@ -1,5 +1,3 @@
----
-
 ````markdown
 # ITI Final Project
 
