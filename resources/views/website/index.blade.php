@@ -240,7 +240,17 @@
                     </svg>
                 </a>
             </div>
-
+            @if(session('success'))
+                <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
+                    role="alert">
+                    <!-- Icon -->
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            @endif
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
 
@@ -253,8 +263,7 @@
 
                         <div class="relative overflow-hidden rounded-xl mb-4">
                             @if($firstImage)
-                                <img src="{{ asset('storage/' . $firstImage) }}" alt=" "
-                                    class="w-full h-64 object-cover">
+                                <img src="{{ asset('storage/' . $firstImage) }}" alt=" " class="w-full h-64 object-cover">
                             @else
                                 <img src="{{ asset('default-product.png') }}" alt=" " class="w-full h-64 object-cover">
                             @endif
@@ -304,13 +313,19 @@
                         </div> --}}
                         <div class="flex justify-between items-center">
                             <span class="text-gray-900 font-bold mt-2">${{ $product->price }}</span>
-                            <button class="bg-primary text-white p-2 rounded-lg hover:bg-secondary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z">
-                                    </path>
-                                </svg>
-                            </button>
+                            <form action="{{ route('cart.store') }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <button class="bg-primary text-white p-2 rounded-lg hover:bg-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 @endforeach

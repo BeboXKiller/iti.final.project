@@ -5,6 +5,8 @@ use App\Http\Controllers\Website\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{ CustomerController, AdminController, ProductController, CategoryController};
+use App\Http\Controllers\Website\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +28,7 @@ Auth::routes(); // /login, /register, /logout, /password/reset
 
 // ====== User Routes ======
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
+    Route::resource('cart' , CartController::class);
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
     // Add other user routes here
