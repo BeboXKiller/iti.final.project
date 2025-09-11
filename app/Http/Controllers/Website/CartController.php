@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use app\Http\Controllers\Website\WishlistController;
 use Illuminate\Http\Request;
@@ -97,7 +98,7 @@ class CartController extends Controller
             $product = $wishlistItem->product;
 
             if ($product && $product->quantity > 0) {
-                \Cart::add(
+                Cart::add(
                     $product->id,
                     $product->name,
                     1,
@@ -139,9 +140,6 @@ class CartController extends Controller
             'last_name'  => 'required|string|max:255',
             'address'    => 'required|string|max:255',
             'city'       => 'required|string|max:255',
-            'state'      => 'nullable|string|max:255',
-            'zip'        => 'nullable|string|max:20',
-            'country'    => 'nullable|string|max:255',
             'phone'      => 'required|string|max:20',
             'payment'    => 'required|string',
         ]);

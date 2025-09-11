@@ -35,18 +35,6 @@
                             <label>City</label>
                             <input type="text" name="city" class="w-full px-3 py-2 border rounded-lg" required>
                         </div>
-                        <div>
-                            <label>State</label>
-                            <input type="text" name="state" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                        <div>
-                            <label>ZIP</label>
-                            <input type="text" name="zip" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
-                        <div>
-                            <label>Country</label>
-                            <input type="text" name="country" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
                         <div class="md:col-span-2">
                             <label>Phone</label>
                             <input type="tel" name="phone" class="w-full px-3 py-2 border rounded-lg" required>

@@ -63,7 +63,7 @@
                                         </div>
                                     </form>
 
-                                    <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST" class="inline">
+                                    <form action="{{ route('cart.destroy', $item->rowId ) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button class="text-red-500 hover:text-red-700 p-2">
@@ -105,7 +105,7 @@
 
                         <div class="space-y-4 mb-6">
                             <div class="flex justify-between">
-                                <span>Subtotal ({{ Cart::count() }} items)</span>
+                                <span>Subtotal {{ '(' . Cart::count() . ' items' . ')'  }}</span>
                                 <span class="subtotal-amount">${{ $subtotal }}</span>
                             </div>
                             <div class="flex justify-between">
@@ -114,7 +114,7 @@
                             </div>
                             <div class="flex justify-between">
                                 <span>Tax</span>
-                                <span class="tax-amount">${{ number_format(Cart::subtotal() * 0.08, 2) }}</span>
+                                <span class="tax-amount">${{ $tax }}</span>
                             </div>
                             <hr class="border-gray-200">
                             <div class="flex justify-between font-heading font-bold text-lg">
