@@ -253,9 +253,9 @@
 
                             <div class="flex items-center mb-3">
                                 @foreach ($order->orderItems as $item)
-                                    <img src="{{ $item->product->image }}" alt="Order Item"
+                                    <img src="{{ asset('\Storage', $item->product->image)  }}" alt="Order Item"
                                         class="w-12 h-15 object-cover rounded mr-3">
-                                    <div class="flex-1">
+                                    <div class="flex-1 col-auto">
                                         <p class="font-medium">{{ $item->product->name }} +
                                             {{ $order->orderItems->count() - 1 }} more items</p>
                                         <p class="text-gray-500 text-sm">Total: ${{ $order->total_amount }}</p>
@@ -294,8 +294,7 @@
                         <h3 class="mt-4 font-semibold">Items:</h3>
                         <ul class="list-disc pl-5">
                             @foreach ($order->orderItems as $item)
-                                <li>{{ $item->product->name }} x {{ $item->quantity }} - ${{ $item->price }}
-                                </li>
+                                <li>{{ $item->product->name }} x {{ $item->quantity }} - ${{ $item->price }}</li>
                             @endforeach
                         </ul>
                     </div>
