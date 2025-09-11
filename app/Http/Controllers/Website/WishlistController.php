@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class WishlistController extends Controller
 {
@@ -159,7 +160,7 @@ class WishlistController extends Controller
     {
         try {
             $deleted = Wishlist::where('user_id', Auth::id())->delete();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Wishlist cleared successfully!',

@@ -38,10 +38,10 @@ class WishlistManager {
         });
 
         // Add all to cart
-        $(document).on('click', '.add-all-to-cart', (e) => {
-            e.preventDefault();
-            this.addAllToCart();
-        });
+        // $(document).on('click', '.add-all-to-cart', (e) => {
+        //     e.preventDefault();
+        //     this.addAllToCart();
+        // });
     }
 
     toggleWishlist(element) {
