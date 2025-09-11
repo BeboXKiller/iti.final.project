@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Website\UserController;
+use App\Http\Controllers\Website\{UserController, AccountController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{ CustomerController, AdminController, ProductController, CategoryController};
@@ -28,6 +28,9 @@ Auth::routes(); // /login, /register, /logout, /password/reset
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
+    Route::resource('account', AccountController::class);
+    Route::post('account/{id}/updatepassword', [AccountController::class, 'updatePassword'])
+    ->name('account.updatePassword');
     // Add other user routes here
 });
 
@@ -38,8 +41,8 @@ Route::prefix('/home')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('categories', CategoryController::class);
     // Add other admin routes here
     // Add other admin routes here
-    Route::get('/dashboard/orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
-    Route::put('/dashboard/orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.dashboard.orders.update');
+    Route::get('orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
+    Route::put('orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.dashboard.orders.update');
     // ============= For Cuatomers ============
     Route::resource('customers', CustomerController::class);
 });
