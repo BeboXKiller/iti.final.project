@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Website\{UserController, WishlistController, CartController};
+use App\Http\Controllers\Website\{UserController, AccountController, WishlistController, CartController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{CustomerController, AdminController, ProductController, CategoryController};
@@ -31,6 +31,10 @@ Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.store');
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
+    Route::resource('account', AccountController::class);
+    Route::post('account/{id}/updatepassword', [AccountController::class, 'updatePassword'])
+    ->name('account.updatePassword');
     Route::get('/allproducts', [UserController::class, 'allProducts'])->name('user.allproducts');
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('user.product');
     Route::get('/whishlist', [UserController::class, 'whishList'])->name('user.wishlist');
