@@ -91,7 +91,7 @@ Make sure you have installed:
    ```bash
    git clone https://github.com/BeboXKiller/iti.final.project.git
    cd iti.final.project
-````
+
 
 2. Copy `.env` file and configure environment:
 
