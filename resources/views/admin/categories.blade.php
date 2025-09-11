@@ -1,22 +1,26 @@
 @extends('admin.app')
 
 @section('content')
-
     <div class="flex-1 p-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <div>
                 <h1 class="text-2xl font-heading font-bold">Category Management</h1>
                 <p class="text-gray-600 mt-2">Organize your product categories</p>
             </div>
-            <button
-                class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent mt-4 md:mt-0 flex items-center action-btn"
-                onclick="openModal('add-category-modal')">
+            <a href="{{ route('categories.create') }}"
+                class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent mt-4 md:mt-0 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
                     <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                 </svg>
                 Add New Category
-            </button>
+            </a>
+
         </div>
+        @if (session('success'))
+            <div class="bg-green-100 text-green-800 p-4 rounded-lg mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- Categories Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

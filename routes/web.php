@@ -36,6 +36,7 @@ Route::prefix('/home')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+    Route::post('categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
     // Add other admin routes here
     // Add other admin routes here
     Route::get('/dashboard/orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
