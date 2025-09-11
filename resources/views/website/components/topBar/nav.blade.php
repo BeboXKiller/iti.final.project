@@ -1,4 +1,4 @@
-<nav class="border-t border-gray-200">
+<nav class="border-t border-gray-200 mx-auto lg:flex">
     <div class="container mx-auto px-4">
         <div class="flex justify-center">
             <ul class="flex space-x-10 py-3">

@@ -12,6 +12,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+
+
     public function index()
     {
         $products = Product::with('category')->get();
@@ -19,7 +23,7 @@ class ProductController extends Controller
         return view('admin.products', compact('products', 'categories'));
     }
 
-   
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,39 +38,47 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|min:3|max:100|alpha_dash:ascii',
-        'price' => 'required|numeric|decimal:2',
-        'description' => 'required|min:3|max:500|string',
-        'category_id' => 'required|exists:categories,id',
-        'quantity' => 'required|integer|max:9999',
-        'image.*' => 'image|mimes:png,jpg,heic,svg|max:2048', // لاحظ image.*
-    ]);
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:100|alpha_dash:ascii',
+            'price' => 'required|numeric|decimal:2',
+            'description' => 'required|min:3|max:500|string',
+            'category_id' => 'required|exists:categories,id',
+            'quantity' => 'required|integer|max:9999',
+            'image.*' => 'image|mimes:png,jpg,heic,svg|max:2048',
+        ]);
 
-    $photoPaths = [];
+        $photoPaths = [];
 
-    if ($request->hasFile('image')) {
-        foreach ($request->file('image') as $file) {
-            $photoPaths[] = $file->store('uploads/products', 'public');
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $file) {
+                $photoPaths[] = $file->store('uploads/products', 'public');
+            }
         }
+
+
+        $validatedData['images'] = json_encode($photoPaths);
+
+        Product::create($validatedData);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
-  
-    $validatedData['images'] = json_encode($photoPaths);
 
-    Product::create($validatedData);
 
-    return redirect()->route('products.index')->with('success', 'Product created successfully.');
+ public function show(Product $product)
+{
+    $product->load('category'); // بدل ما تعمل find من جديد
+    return view('website.viewProduct', compact('product'));
 }
 
 
-   
-    public function show(Product $product)
-    {
-        //
-    }
 
+    // public function show($slug)
+    // {
+    //     $product = Product::where('slug', $slug)->firstOrFail();
+    //     return view('products.show', compact('product'));
+    // }
     /**
      * Show the form for editing the specified resource.
      */

@@ -9,12 +9,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-     public function index(){
-        $products =Product::latest()->take(5)->get();
+    public function index()
+    {
+        $products = Product::latest()->take(5)->get();
         $categories = Category::all();
         return view('website.index', compact('products', 'categories'));
     }
-
+    public function allProducts()
+    {
+        $products = Product::all();
+        return view('website.products', compact('products'));
+    }
     public function account()
     {
         return view('website.userAccount');
