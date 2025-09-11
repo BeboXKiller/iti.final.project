@@ -1,37 +1,51 @@
 @extends('website.app')
 
 @section('content')
-
+    @if(session('success'))
+        <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
+            role="alert">
+            <!-- Icon -->
+            <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="font-medium">{{ session('success') }}</span>
+        </div>
+    @endif
     <!-- Product Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         <!-- Product Gallery -->
-        <div class="product-gallery">
+        @php
+            $images = json_decode($product->images, true);
+        @endphp
+
+        <div x-data="{ currentImage: '{{ !empty($images) ? asset('storage/' . $images[0]) : asset('images/no-image.png') }}' }"
+            class="product-gallery">
+            <!-- Main Image -->
             <div class="relative rounded-2xl overflow-hidden mb-4">
-                <img src="https://placehold.co/600x700/254D70/EFE4D2?text=Summer+Dress" alt="Summer Floral Dress"
-                    class="w-full" id="main-image">
-                <div class="absolute top-3 right-3">
-                    <button class="bg-white rounded-full p-2 shadow-md hover:bg-secondary hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="absolute top-3 left-3">
-                    <span class="bg-secondary text-white text-xs px-2 py-1 rounded">New</span>
-                </div>
+                <img :src="currentImage" alt="{{ $product->name }}" class="w-full h-96 object-cover" />
             </div>
-            <!-- <div class="grid grid-cols-4 gap-4">
-                            <img src="https://placehold.co/150x150/254D70/EFE4D2?text=Front" alt="Front view" class="rounded-lg cursor-pointer" onclick="changeImage(this)">
-                            <img src="https://placehold.co/150x150/954C2E/EFE4D2?text=Back" alt="Back view" class="rounded-lg cursor-pointer" onclick="changeImage(this)">
-                            <img src="https://placehold.co/150x150/131D4F/EFE4D2?text=Side" alt="Side view" class="rounded-lg cursor-pointer" onclick="changeImage(this)">
-                            <img src="https://placehold.co/150x150/254D70/EFE4D2?text=Detail" alt="Detail view" class="rounded-lg cursor-pointer" onclick="changeImage(this)">
-                        </div> -->
+
+            <!-- Thumbnails -->
+            <div class="grid grid-cols-4 gap-2">
+                @if(!empty($images))
+                    @foreach($images as $img)
+                        <img src="{{ asset('storage/' . $img) }}" alt="{{ $product->name }}"
+                            class="w-full h-24 object-cover rounded cursor-pointer border hover:border-secondary"
+                            @click="currentImage = '{{ asset('storage/' . $img) }}'">
+                    @endforeach
+                @else
+                    <img src="{{ asset('images/no-image.png') }}" alt="No Image" class="w-full h-24 object-cover rounded">
+                @endif
+            </div>
         </div>
+
+        <!-- لازم تضيف AlpineJS -->
+
+
 
         <!-- Product Details -->
         <div>
-            <h1 class="text-3xl font-heading font-bold mb-2">Summer Floral Dress</h1>
+            <h1 class="text-3xl font-heading font-bold mb-2">{{$product->name}}</h1>
             <div class="flex items-center mb-4">
                 <div class="flex text-secondary mr-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
@@ -60,14 +74,12 @@
             </div>
 
             <div class="mb-6">
-                <span class="font-heading font-bold text-2xl text-secondary">$59.99</span>
+                <span class="font-heading font-bold text-2xl text-secondary">{{$product->price}}</span>
                 <span class="text-gray-500 line-through ml-2">$79.99</span>
             </div>
 
             <p class="text-gray-600 mb-6">
-                This beautiful summer floral dress features a flattering A-line silhouette with a comfortable elastic waist.
-                Made from lightweight, breathable fabric that's perfect for warm weather. The vibrant floral print adds a
-                touch of elegance to any summer occasion.
+                {{$product->description}}
             </p>
 
             <!-- Size Selection -->
@@ -129,14 +141,20 @@
                     <span class="px-4 py-2" id="quantity">1</span>
                     <button class="px-4 py-3 text-gray-500 hover:text-primary" onclick="updateQuantity(1)">+</button>
                 </div>
-                <button
-                    class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-accent flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
-                        <path fill="currentColor"
-                            d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
-                    </svg>
-                    Add to Cart
-                </button>
+                <form action="{{ route('cart.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="redirect_back" value="1">
+                    <button
+                        class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-accent flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
+                            <path fill="currentColor"
+                                d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
+                        </svg>
+                        Add to Cart
+                    </button>
+                </form>
             </div>
 
             <!-- Product Actions -->
@@ -170,9 +188,9 @@
                     </button>
                     <div class="mt-2 text-gray-600 hidden">
                         <ul class="list-disc pl-5 space-y-1">
-                            <li>Lightweight, breathable fabric</li>
-                            <li>Elastic waist for comfort</li>
-                            <li>A-line silhouette</li>
+                            <li>{{$product->name}}</li>
+                            <li>{{$product->price}}</li>
+                            <li>{{$product->description}}</li>
                             <li>Machine washable</li>
                             <li>Imported</li>
                         </ul>
@@ -306,7 +324,7 @@
             <!-- More related products would go here -->
         </div>
     </section>
-
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script>
         // Change main product image
         function changeImage(element) {
