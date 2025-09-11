@@ -1,5 +1,3 @@
-Here’s a more polished version of a **README.md** for your repo. Feel free to fill in or tweak details (screenshots, exact tech versions, etc.) as desired.
-
 ---
 
 ````markdown
