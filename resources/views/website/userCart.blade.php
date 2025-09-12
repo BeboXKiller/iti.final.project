@@ -3,15 +3,6 @@
 @section('content')
     <main class="py-8">
         <div class="container mx-auto px-4">
-            <!-- Breadcrumb -->
-            <nav class="mb-8">
-                <ol class="flex items-center space-x-2 text-sm">
-                    <li><a href="{{ url('/') }}" class="text-primary hover:underline">Home</a></li>
-                    <li class="text-gray-400">/</li>
-                    <li class="text-gray-600">Shopping Cart</li>
-                </ol>
-            </nav>
-
             <!-- Page Title -->
             <h1 class="text-3xl font-heading font-bold mb-8">Shopping Cart</h1>
             @if(session('success'))
