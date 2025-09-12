@@ -28,7 +28,6 @@ Route::get('/', [HomeController::class, 'index'])->name('styleMart');
 Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::resource('cart', CartController::class);
     Route::post('cart/add-all-from-wishlist', [CartController::class, 'addAllFromWishlist'])->name('cart.addAllFromWishlist');
-    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.store');
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/allproducts', [UserController::class, 'allProducts'])->name('user.allproducts');

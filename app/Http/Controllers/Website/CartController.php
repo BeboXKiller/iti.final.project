@@ -20,7 +20,8 @@ class CartController extends Controller
         $subtotal = Cart::subtotal(2, '.', ',');
         $tax = Cart::tax(2, '.', ',');
         $total = Cart::total(2, '.', ',');
-        return view('website.userCart', compact('cartItems', 'subtotal', 'tax', 'total'));
+        $count = Cart::count();
+        return view('website.userCart', compact('cartItems', 'subtotal', 'tax', 'total' , 'count'));
     }
 
     /**
@@ -89,6 +90,7 @@ class CartController extends Controller
         Cart::remove($id);
         return redirect()->back()->with('success', 'Product Removed');
     }
+
     public function addAllFromWishlist()
     {
         $wishlistItems = auth()->user()->wishlists()->get();
@@ -120,32 +122,10 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', "$added item(s) have been added to your cart.");
     }
-    public function checkout()
-    {
-        $cartItems = Cart::content();
-        $subtotal  = Cart::subtotal(2, '.', ',');
-        $tax       = Cart::tax(2, '.', ',');
-        $total     = Cart::total(2, '.', ',');
-
-        return view('website.userCheckout', compact('cartItems', 'subtotal', 'tax', 'total'));
-    }
 
 
     public function placeOrder(Request $request)
     {
-        $data = $request->validate([
-            'email'      => 'required|email',
-            'first_name' => 'required|string|max:255',
-            'last_name'  => 'required|string|max:255',
-            'address'    => 'required|string|max:255',
-            'city'       => 'required|string|max:255',
-            'state'      => 'nullable|string|max:255',
-            'zip'        => 'nullable|string|max:20',
-            'country'    => 'nullable|string|max:255',
-            'phone'      => 'required|string|max:20',
-            'payment'    => 'required|string',
-        ]);
-
         $total = Cart::total(2, '.', ',');
 
         $order = Order::create([
@@ -154,7 +134,6 @@ class CartController extends Controller
             'status'       => 'pending',
         ]);
 
-        
         Cart::destroy();
 
         return redirect()->route('styleMart')->with('success',  'Order placed successfully!');
