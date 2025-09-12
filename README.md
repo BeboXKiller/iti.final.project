@@ -1,8 +1,3 @@
-Here’s a more polished version of a **README.md** for your repo. Feel free to fill in or tweak details (screenshots, exact tech versions, etc.) as desired.
-
----
-
-````markdown
 # ITI Final Project
 
 [![License: CC0‑1.0](https://img.shields.io/badge/License‑CC0‑1.0‑lightgrey.svg)](#license)  
