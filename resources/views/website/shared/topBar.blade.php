@@ -10,10 +10,10 @@
                 <div class="flex w-full bg-gray-100 rounded-full px-4 py-2">
                     <select name="Categories"
                         class="bg-transparent border-none text-sm focus:outline-none hidden md:block">
-                        <option>All Categories</option>
-                        <option>Women</option>
-                        <option>Men</option>
-                        <option>Kids</option>
+                        <option selected disabled>All Categories</option>
+                        @foreach ( $categories as $category )
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
                     </select>
                     <input type="text" placeholder="Search for clothing items..."
                         class="w-full px-4 bg-transparent border-none focus:outline-none">

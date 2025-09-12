@@ -26,7 +26,10 @@
         }
     }
 
-    .product-item:hover,
+    .product-item:hover {
+        transform: translateY(-5px);
+    }
+
     .category-item:hover {
         transform: translateY(-5px);
     }
@@ -103,10 +106,12 @@
         </div>
     @endif
     <section class="py-8 bg-primary">
-        <div class="swiper main-swiper container mx-auto px-4 rounded-2xl overflow-hidden">
-            <div class="swiper-wrapper">
-                <!-- Slide 1 -->
-                <div class="swiper-slide">
+        <div
+            class="swiper main-swiper container mx-auto px-4 rounded-2xl overflow-hidden swiper-initialized swiper-horizontal swiper-backface-hidden">
+            <div class="swiper-wrapper" id="swiper-wrapper-9b75a7d2419d3831" aria-live="off"
+                style="transition-duration: 300ms; transform: translate3d(-1248px, 0px, 0px);">
+                <div class="swiper-slide swiper-slide-next swiper-slide-prev" style="width: 1248px;" role="group"
+                    aria-label="1 / 2" data-swiper-slide-index="0">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10">
                         <div class="text-white px-6">
                             <p class="text-secondary font-semibold mb-2">SUMMER COLLECTION</p>
@@ -116,6 +121,12 @@
                             <a href="#"
                                 class="bg-secondary text-white px-6 py-3 rounded-full font-medium inline-flex items-center">
                                 Shop Now
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="ml-2"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z">
+                                    </path>
+                                </svg>
                             </a>
                         </div>
                         <div class="flex justify-center">
@@ -124,18 +135,23 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Slide 2 -->
-                <div class="swiper-slide">
+                <div class="swiper-slide swiper-slide-active" style="width: 1248px;" role="group" aria-label="2 / 2"
+                    data-swiper-slide-index="1">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10">
                         <div class="text-white px-6">
-                            <p class="text-secondary font-semibold mb-2">NEW ARRIVALS</p>
+                            <p class="text-secondary font-semib极速加速器old mb-2">NEW ARRIVALS</p>
                             <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">New Season Arrivals</h2>
                             <p class="mb-6">Discover the latest trends in fashion and upgrade your wardrobe with our new
                                 collection.</p>
                             <a href="#"
                                 class="bg-secondary text-white px-6 py-3 rounded-full font-medium inline-flex items-center">
                                 Shop Collection
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="ml-2"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z">
+                                    </path>
+                                </svg>
                             </a>
                         </div>
                         <div class="flex justify-center">
@@ -145,7 +161,13 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
+            <div
+                class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                <span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span
+                    class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button"
+                    aria-label="Go to slide 2" aria-current="true"></span>
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
         </div>
     </section>
 
@@ -265,18 +287,18 @@
 
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.main-swiper', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 5000,
+            },
+        });
+    </script>
 @endsection
-
-<script>
-    // Initialize Swiper
-    const swiper = new Swiper('.main-swiper', {
-        loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        autoplay: {
-            delay: 5000,
-        },
-    });
-</script>

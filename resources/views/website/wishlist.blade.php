@@ -79,9 +79,9 @@
                             </div>
 
                             <div class="absolute top-3 left-3">
-                                @if($product->stock > 10)
+                                @if($product->quantity > 10)
                                     <span class="bg-green-500 text-white text-xs px-2 py-1 rounded">In Stock</span>
-                                @elseif($product->stock > 0)
+                                @elseif($product->quantity > 0)
                                     <span class="bg-yellow-500 text-white text-xs px-2 py-1 rounded">Low Stock</span>
                                 @else
                                     <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Out of Stock</span>
@@ -118,7 +118,7 @@
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="redirect_back" value="1">
                                     <button type="submit"
-                                        class="w-full bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-accent transition">
+                                        class="bg-primary text-white py-2 px-14 w-full rounded-md font-medium hover:bg-accent transition">
                                         Add to Cart
                                     </button>
                                 </form>
@@ -129,13 +129,12 @@
                                 </button>
                             @endif
 
-                            <button class="bg-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-300"
-                                onclick="quickView({{ $product->id }}, '{{ $product->name }}')">
+                            <a href="{{ route('user.product' , $product) }}" class="bg-gray-200 text-gray-700 pt-3 px-3 rounded-lg hover:bg-gray-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
                                 </svg>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 @endforeach
