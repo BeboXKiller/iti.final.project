@@ -232,7 +232,7 @@
 
                                 <div class="absolute top-3 right-3">
                                     <button
-                                        class="wishlist-toggle bg-white rounded-full p-2 shadow-md hover:bg-secondary hover:text-white"
+                                        class="wishlist-toggle bg-white rounded-full px-3 py-2 shadow-md hover:bg-secondary hover:text-white"
                                         data-product-id="{{ $product->id }}">
                                         ❤
                                     </button>
