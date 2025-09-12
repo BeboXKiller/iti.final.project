@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.createCategory');
     }
 
     /**
@@ -30,7 +30,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'string',
+    ]);
+
+    Category::create([
+        'name' => $request->name,
+        'description' => $request->description,
+    ]);
+
+    return redirect()->route('categories.index')->with('success', 'Category added successfully!');
     }
 
     /**
@@ -46,7 +56,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.editCategory', compact('category'));
     }
 
     /**
@@ -54,7 +64,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:100|alpha_dash:ascii',
+            'description' => 'required|min:3|max:500|string',
+    
+        ]);
+
+        // Update the existing product 
+        $category->update($validatedData);
+
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -62,7 +83,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()
+            ->with('success', 'product moved to trash.');
     }
 
     public function showProducts(Category $category)
