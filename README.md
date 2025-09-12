@@ -1,8 +1,5 @@
 # ITI Final Project
 
-[![License: CC0‑1.0](https://img.shields.io/badge/License‑CC0‑1.0‑lightgrey.svg)](#license)  
-[![Build Status](#)](#) • [![Coverage Status](#)](#) • [![Contributors](https://img.shields.io/badge/Contributors‑4‑blue.svg)](#contributors)
-
 An e‑commerce web application built as the final group project for the **Information Technology Institute (ITI)**.
 
 ---
@@ -94,7 +91,7 @@ Make sure you have installed:
    ```bash
    git clone https://github.com/BeboXKiller/iti.final.project.git
    cd iti.final.project
-````
+
 
 2. Copy `.env` file and configure environment:
 
