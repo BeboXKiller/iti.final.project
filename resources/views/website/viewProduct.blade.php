@@ -136,26 +136,34 @@
 
             <!-- Quantity & Add to Cart -->
             <div class="flex flex-wrap items-center gap-4 mb-2">
-                <div class="flex items-center border border-gray-200 rounded-lg">
-                    <button class="px-4 py-3 text-gray-500 hover:text-primary" onclick="updateQuantity(-1)">-</button>
-                    <span class="px-4 py-2" id="quantity">1</span>
-                    <button class="px-4 py-3 text-gray-500 hover:text-primary" onclick="updateQuantity(1)">+</button>
-                </div>
-                <form action="{{ route('cart.store') }}" method="POST">
+                <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4">
                     @csrf
                     @method('POST')
+
+                    <div class="flex items-center border border-gray-200 rounded-lg">
+                        <button type="button" onclick="this.nextElementSibling.stepDown()"
+                            class="px-4 py-3 text-gray-500 hover:text-primary">-</button>
+
+                        <input type="number" name="qty" value="1" min="1" class="w-16 text-center border-0 focus:ring-0" />
+
+                        <button type="button" onclick="this.previousElementSibling.stepUp()"
+                            class="px-4 py-3 text-gray-500 hover:text-primary">+</button>
+                    </div>
+
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <input type="hidden" name="redirect_back" value="1">
+
                     <button
                         class="flex-1 bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-accent flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
                             <path fill="currentColor"
-                                d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
+                                d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0-2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
                         </svg>
                         Add to Cart
                     </button>
                 </form>
             </div>
+
 
             <!-- Product Actions -->
             <div class="flex items-center space-x-4 border-t border-b border-gray-200 py-4">

@@ -21,7 +21,7 @@ class CartController extends Controller
         $tax = Cart::tax(2, '.', ',');
         $total = Cart::total(2, '.', ',');
         $count = Cart::count();
-        return view('website.userCart', compact('cartItems', 'subtotal', 'tax', 'total' , 'count'));
+        return view('website.userCart', compact('cartItems', 'subtotal', 'tax', 'total', 'count'));
     }
 
     /**
@@ -38,10 +38,14 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
+        $qty = (int) $request->input('qty', 1);
+
+        // Optional: prevent adding more than available stock
+        $qty = min($qty, $product->quantity);
         Cart::add(
             $product->id,
             $product->name,
-            1,
+            $qty,
             $product->price,
             0,
             [
