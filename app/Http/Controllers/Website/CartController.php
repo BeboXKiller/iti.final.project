@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use app\Http\Controllers\Website\WishlistController;
 use Illuminate\Http\Request;
@@ -137,6 +138,15 @@ class CartController extends Controller
             'total_amount' => $total,
             'status'       => 'pending',
         ]);
+
+        foreach (Cart::content() as $item) {
+            OrderItem::create([
+                'order_id'   => $order->id,
+                'product_id' => $item->id,
+                'quantity'   => $item->qty,
+                'price'      => $item->price,
+            ]);
+        }
 
         Cart::destroy();
 
