@@ -3,15 +3,6 @@
 @section('content')
     <main class="py-8">
         <div class="container mx-auto px-4">
-            <!-- Breadcrumb -->
-            <nav class="mb-8">
-                <ol class="flex items-center space-x-2 text-sm">
-                    <li><a href="{{ url('/') }}" class="text-primary hover:underline">Home</a></li>
-                    <li class="text-gray-400">/</li>
-                    <li class="text-gray-600">Shopping Cart</li>
-                </ol>
-            </nav>
-
             <!-- Page Title -->
             <h1 class="text-3xl font-heading font-bold mb-8">Shopping Cart</h1>
             @if(session('success'))
@@ -105,7 +96,7 @@
 
                         <div class="space-y-4 mb-6">
                             <div class="flex justify-between">
-                                <span>Subtotal {{ '(' . Cart::count() . ' items' . ')'  }}</span>
+                                <span>Subtotal ({{ $count }} items)</span>
                                 <span class="subtotal-amount">${{ $subtotal }}</span>
                             </div>
                             <div class="flex justify-between">
@@ -124,10 +115,14 @@
                         </div>
 
                         <!-- Checkout Button -->
-                        <a href="{{ route('checkout.index') }}"
-                        class="block w-full bg-secondary text-white py-3 rounded-lg font-medium hover:bg-accent transition-colors mb-4 text-center">
-                            Proceed to Checkout
-                        </a> 
+                        <form action="{{route ('checkout.store')}}" method="post">
+                            @csrf
+                            <button type="submit" 
+                                    onclick="return confirm('Are you sure you want to place this order?')"
+                                    class="w-full mt-6 bg-secondary text-white py-3 rounded-lg hover:bg-accent">
+                                Place Your Order
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

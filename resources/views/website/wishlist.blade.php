@@ -6,6 +6,17 @@
             transform: translateY(-5px);
         }
     </style>
+    @if(session('error'))
+        <div class="flex items-center bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
+            role="alert">
+            <!-- Icon -->
+            <svg class="w-6 h-6 mr-2 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span class="font-medium">{{ session('error') }}</span>
+        </div>
+    @endif
+
     @if(session('success'))
         <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
             role="alert">
@@ -136,10 +147,11 @@
                 <div class="flex flex-wrap gap-4">
                     <form action="{{route('cart.addAllFromWishlist')}}" method="post">
                         @csrf
-                        <button class="add-all-to-cart bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent">
+                        <button
+                            class="add-all-to-cart bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent">
                             Add All to Cart
                         </button>
-                    </form> 
+                    </form>
                     <button class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent"
                         onclick="moveToNewList()">
                         Create New List

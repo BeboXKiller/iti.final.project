@@ -92,6 +92,16 @@
     </div>
 
     <!-- Hero Section with Swiper -->
+    @if(session('success'))
+        <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
+            role="alert">
+            <!-- Icon -->
+            <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="font-medium">{{ session('success') }}</span>
+        </div>
+    @endif
     <section class="py-8 bg-primary">
         <div class="swiper main-swiper container mx-auto px-4 rounded-2xl overflow-hidden">
             <div class="swiper-wrapper">
@@ -203,17 +213,6 @@
                     </svg>
                 </a>
             </div>
-            @if(session('success'))
-                <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
-                    role="alert">
-                    <!-- Icon -->
-                    <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span class="font-medium">{{ session('success') }}</span>
-                </div>
-            @endif
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($products as $product)
                     @php
