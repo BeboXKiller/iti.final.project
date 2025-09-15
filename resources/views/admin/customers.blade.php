@@ -13,10 +13,7 @@
                 <h1 class="text-2xl font-heading font-bold">Customer Management</h1>
                 <p class="text-gray-600 mt-2">Manage your customer database</p>
             </div>
-            <a href="{{ route('customers.create') }}"
-                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-accent flex items-center">
-                + Add New Customer
-            </a>
+            
         </div>
 
         <!-- Customers Table -->

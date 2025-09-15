@@ -6,25 +6,7 @@
                 <a href="{{ route('home') }}" class="text-2xl font-heading font-bold text-primary">StyleMart</a>
             </div>
 
-            <div class="hidden lg:flex flex-1 max-w-2xl mx-10">
-                <div class="flex w-full bg-gray-100 rounded-full px-4 py-2">
-                    <select name="Categories"
-                        class="bg-transparent border-none text-sm focus:outline-none hidden md:block">
-                        <option>All Categories</option>
-                        <option>Women</option>
-                        <option>Men</option>
-                        <option>Kids</option>
-                    </select>
-                    <input type="text" placeholder="Search for clothing items..."
-                        class="w-full px-4 bg-transparent border-none focus:outline-none">
-                    <button class="bg-primary text-white p-2 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+            
 
             <!-- Header Actions -->
             <div class="flex items-center space-x-5">

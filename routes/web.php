@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Website\{UserController, AccountController, WishlistController, CartController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{CustomerController, AdminController, ProductController, CategoryController};
+use App\Http\Controllers\Admin\{AccountController as AdminAccountController, CustomerController, AdminController, ProductController, CategoryController};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,10 +30,10 @@ Route::prefix('/user')->middleware(['auth', 'isUser'])->group(function () {
     Route::post('cart/add-all-from-wishlist', [CartController::class, 'addAllFromWishlist'])->name('cart.addAllFromWishlist');
     Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.store');
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/whishlist' , [UserController::class, 'whishList'])->name('user.wishlist');
+    Route::get('/whishlist', [UserController::class, 'whishList'])->name('user.wishlist');
     Route::resource('account', AccountController::class);
     Route::post('account/{id}/updatepassword', [AccountController::class, 'updatePassword'])
-    ->name('account.updatePassword');
+        ->name('account.updatePassword');
     Route::get('/allproducts', [UserController::class, 'allProducts'])->name('user.allproducts');
     Route::get('/product/{product}', [ProductController::class, 'show'])->name('user.product');
     Route::get('/whishlist', [UserController::class, 'whishList'])->name('user.wishlist');
@@ -56,9 +56,13 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+    Route::post('categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
     Route::get('/dashboard/orders', [AdminController::class, 'orders'])->name('admin.dashboard.orders');
     Route::put('/dashboard/orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.dashboard.orders.update');
     Route::resource('customers', CustomerController::class);
+    Route::resource('aaccount', AdminAccountController::class);
+    Route::post('aaccount/{id}/updatepassword', [AdminAccountController::class, 'updatePassword'])
+        ->name('aaccount.updatePassword');
 });
 
 // ====== Default Redirect ======

@@ -34,8 +34,8 @@ class StoreCustomerRequest extends FormRequest
             ],
             'password' => ['nullable', 'string', 'min:6'], // make nullable for edit
             'phone'    => ['required', 'string', 'regex:/^\+?[0-9]{7,15}$/'],
-            'address'  => ['required', 'string', 'max:255'],
-            'city'     => ['required', 'string', 'max:100'],
+            'address'  => ['nullable', 'string', 'max:255'],
+            'city'     => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -51,9 +51,7 @@ class StoreCustomerRequest extends FormRequest
             'password.min'      => 'Password must be at least 6 characters.',
             'phone.required'    => 'Phone number is required.',
             'phone.regex'       => 'Phone number format is invalid.',
-            'address.required'  => 'Address is required.',
             'address.max'       => 'Address must not exceed 255 characters.',
-            'city.required'     => 'City is required.',
             'city.max'          => 'City must not exceed 100 characters.',
         ];
     }

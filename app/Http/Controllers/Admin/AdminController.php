@@ -5,16 +5,35 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
 
-    public function dashboard()
+     public function dashboard()
     {
+        // Total Sales (هنا اجمالي السعر من جدول الأوردرات)
+        $totalSales = Order::sum('total_amount'); 
 
-        return view('admin.dashboard');
+        // Orders count
+        $ordersCount = Order::count();
+
+        // Customers count
+        $customersCount = User::count();
+
+        // Products count
+        $productsCount = Product::count();
+
+        return view('admin.dashboard', compact(
+            'totalSales',
+            'ordersCount',
+            'customersCount',
+            'productsCount'
+        ));
     }
+
+
     
     public function products()
     {
