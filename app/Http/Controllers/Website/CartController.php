@@ -38,28 +38,36 @@ class CartController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $product = Product::findOrFail($request->product_id);
-        $qty = (int) $request->input('qty', 1);
+{
+    $product = Product::findOrFail($request->product_id);
+    $qty = (int) $request->input('qty', 1);
 
-        // Optional: prevent adding more than available stock
-        $qty = min($qty, $product->quantity);
-        Cart::add(
-            $product->id,
-            $product->name,
-            $qty,
-            $product->price,
-            0,
-            [
-                'image'   => $product->image,
-                'details' => $product->description,
-            ]
-        );
-        if ($request->has('redirect_back')) {
-            return redirect()->back()->with('success', 'Added To Cart successfully');
-        }
-        return redirect()->route('styleMart')->with('success', 'Added To Cart successfully');
+    // Optional: prevent adding more than available stock
+    $qty = min($qty, $product->quantity);
+
+    // فك الصور وخد أول صورة
+    $images = json_decode($product->images, true);
+    $firstImage = $images[0] ?? null;
+
+    Cart::add(
+        $product->id,
+        $product->name,
+        $qty,
+        $product->price,
+        0,
+        [
+            'image'   => $firstImage,              // ✅ أول صورة
+            'details' => $product->description,
+        ]
+    );
+
+    if ($request->has('redirect_back')) {
+        return redirect()->back()->with('success', 'Added To Cart successfully');
     }
+
+    return redirect()->route('styleMart')->with('success', 'Added To Cart successfully');
+}
+
 
 
     /**
@@ -132,7 +140,7 @@ class CartController extends Controller
 
     public function placeOrder(Request $request)
     {
-        $total = Cart::total(2, '.', ',');
+        $total = str_replace(',', '', Cart::total(2, '.', ','));
 
         $order = Order::create([
             'user_id'      => auth()->user()->id,

@@ -128,14 +128,20 @@
                     @endif
                     <td class="py-4 px-6">
                         <div class="flex justify-end space-x-2">
-                            <button class="text-blue-500 hover:text-blue-700 action-btn"
-                                onclick="openProductModal( '{{ $product->id }}', '{{ $product->name }}', '{{ $product->description }}', '{{ $product->price }}','{{ $product->quantity }}', '{{ $product->category->name }}', '{{asset('storage/'. $product->image)  }}' )">
+                            <button
+                                class="text-blue-500 hover:text-blue-700 action-btn open-product-modal-btn"
+                                data-id="{{ $product->id }}"
+                                data-name="{{ e($product->name) }}"
+                                data-description="{{ e($product->description) }}"
+                                data-price="{{ $product->price }}"
+                                data-quantity="{{ $product->quantity }}"
+                                data-category="{{ e($product->category->name ?? '') }}"
+                                data-images='@json(json_decode($product->images, true))'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                     <path fill="currentColor"
                                         d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
                                 </svg>
                             </button>
-
                             <a href="{{ route('products.edit', $product) }}">
                                 <button class="text-primary hover:text-accent action-btn"
                                     onclick="">
@@ -176,6 +182,49 @@
             document.getElementById('delete-form-' + productId).submit();
         }
     }
+</script>
+<script>
+    document.querySelectorAll('.open-product-modal-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+            const description = this.dataset.description;
+            const price = this.dataset.price;
+            const quantity = this.dataset.quantity;
+            const category = this.dataset.category;
+
+            // الصور كـ JSON
+            let images = [];
+            try {
+                images = JSON.parse(this.dataset.images);
+            } catch (e) {
+                console.error("Image JSON parse error:", e);
+            }
+
+            // أول صورة أو صورة افتراضية
+            const firstImage = images.length > 0 ? "{{ asset('storage') }}/" + images[0] : "{{ asset('images/default.jpg') }}";
+
+            // حط البيانات في المودال
+            document.getElementById('product-id').textContent = id;
+            document.getElementById('product-name').textContent = name;
+            document.getElementById('product-description').textContent = description;
+            document.getElementById('product-price').textContent = "$" + price;
+            document.getElementById('product-quantity').textContent = quantity;
+            document.getElementById('product-category').textContent = category;
+            document.getElementById('product-img').src = firstImage;
+
+            // حالة المخزون
+            if (quantity == 0) {
+                document.getElementById('product-status').innerHTML = '<p class="py-1 text-red-800 text-l rounded-full">Out of Stock</p>';
+            } else if (quantity >= 30) {
+                document.getElementById('product-status').innerHTML = '<p class="py-1 text-green-800 text-l rounded-full">Active</p>';
+            } else {
+                document.getElementById('product-status').innerHTML = '<p class="py-1 text-yellow-800 text-l rounded-full">Low Stock</p>';
+            }
+
+            openModal('view-product-modal');
+        });
+    });
 </script>
 
 @endsection

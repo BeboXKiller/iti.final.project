@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Stylemart') }}</title>
+    <title>{{ config('app.name', 'StyleMart') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -23,7 +23,7 @@
         <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #e5e7eb;">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-            {{ config('app.name', 'Stylemart') }}
+            {{ config('StyleMart', 'StyleMart') }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
