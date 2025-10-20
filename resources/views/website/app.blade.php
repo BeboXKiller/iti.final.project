@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 @include('website.shared.header')
 
-
-
 <body class="font-sans text-gray-700 bg-light">
 
     <!-- Preloader -->

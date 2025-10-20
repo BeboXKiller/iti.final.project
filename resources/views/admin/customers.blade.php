@@ -81,7 +81,7 @@
         </tbody>
         </table>
     </div>
-        @include('components.pagination')
+        <x-admin.pagination :paginator="$customers" />
     </div>  
 
     <script>

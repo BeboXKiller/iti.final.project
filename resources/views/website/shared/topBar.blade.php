@@ -6,6 +6,25 @@
                 <a href="{{ route('home') }}" class="text-2xl font-heading font-bold text-primary">StyleMart</a>
             </div>
 
+            @if(Request()->is('/', 'home', 'user/dashboard'))
+
+                <div class="hidden lg:flex flex-1 max-w-2xl mx-10">
+                    <div class="flex w-full bg-gray-100 rounded-full px-4 py-2">
+                        <select class="bg-transparent border-none text-sm focus:outline-none hidden md:block">
+                            <option>All Categories</option>
+                            <option>Women</option>
+                            <option>Men</option>
+                            <option>Kids</option>
+                        </select>
+                        <input type="text" placeholder="Search for clothing items..." class="w-full px-4 bg-transparent border-none focus:outline-none">
+                        <button class="bg-primary text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+            @endif
+            <!-- Search Bar -->
             
 
             <!-- Header Actions -->
@@ -23,7 +42,7 @@
                     <!-- Dropdown Menu -->
                     <div
                         class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-150 z-50">
-                        <a href="{{ route("account.index") }}"" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                        <a href="{{ route("account.index") }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
                         <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Settings</a>
                         <div class="border-t my-1"></div>
                         <a href="{{ route('logout') }}"
@@ -78,7 +97,7 @@
     </div>
     @if(Request()->is('/', 'home', 'user/dashboard'))
 
-        @include('website.components.topBar.nav')
+        @include('components.website.topBar.nav')
 
     @endif
 </nav>
