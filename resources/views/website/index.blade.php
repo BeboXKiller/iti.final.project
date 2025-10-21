@@ -8,6 +8,17 @@
         animation: animation 1.2s infinite ease-in-out;
     }
 
+    .swiper-slide img {
+
+        shadow: none;
+        margin-top: 50px;
+    }
+
+    .main-swiper {
+
+        height: 855px;
+        padding-top: 40px ;
+    }    
     .preloader:before,
     .preloader:after {
         animation: animation 1.2s infinite ease-in-out;
@@ -105,76 +116,29 @@
     <span class="font-medium">{{ session('success') }}</span>
 </div>
 @endif
-<section class="py-8 bg-primary">
-    <div class="swiper main-swiper container mx-auto px-4 rounded-2xl overflow-hidden">
-        <div class="swiper-wrapper">
 
-            <!-- Slide 1: Summer Collection -->
-            <div class="swiper-slide">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10">
-                    <div class="text-white px-6">
-                        <p class="text-secondary font-semibold mb-2">SUMMER COLLECTION</p>
-                        <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">Fall - Winter Collections 2023</h2>
-                        <p class="mb-6">Discover our exclusive summer collection crafted with elegance and comfort.</p>
-                        <a href="#"
-                            class="bg-secondary text-white px-6 py-3 rounded-full font-medium inline-flex items-center">
-                            Shop Now
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="ml-2" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="flex justify-center">
-                        <img src="{{ asset('assets/images/pexels-kpaukshtite-3270223.jpg') }}" alt="Summer Collection"
-                            class="rounded-2xl shadow-xl">
-                    </div>
-                </div>
-            </div>
+<section class="py-6 bg-primary">
+    <div class="swiper main-swiper container mx-auto rounded-2xl overflow-hidden">
+        <div class="swiper-wrapper" >
+            <x-website.swiper.slide 
+                badge="NEW ARRIVAL"
+                title="Spring Collection 2024"
+                description="Discover our new seasonal collection with fresh styles and colors"
+                buttonText="Shop Now"
+                buttonLink="/products/new-arrivals"
+                image="{{ asset('assets/images/pexels-karolina-grabowska-4041392.jpg') }}"
+                imageAlt="Spring Collection"
+            />
 
-            <!-- Slide 2: New Arrivals -->
-            <div class="swiper-slide">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10">
-                    <div class="text-white px-6">
-                        <p class="text-secondary font-semibold mb-2">NEW ARRIVALS</p>
-                        <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">Fresh Fashion Trends</h2>
-                        <p class="mb-6">Upgrade your wardrobe with the latest arrivals of the season.</p>
-                        <a href="#"
-                            class="bg-secondary text-white px-6 py-3 rounded-full font-medium inline-flex items-center">
-                            Explore Collection
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="ml-2" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="flex justify-center">
-                        <img src="{{ asset('assets/images/pexels-karolina-grabowska-4041392.jpg') }}" alt="New Arrivals"
-                            class="rounded-2xl shadow-xl">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3: Special Sale -->
-            <div class="swiper-slide">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-10">
-                    <div class="text-white px-6">
-                        <p class="text-yellow-300 font-semibold mb-2">LIMITED OFFER</p>
-                        <h2 class="text-4xl md:text-5xl font-heading font-bold mb-4">Up to 50% Off Sale</h2>
-                        <p class="mb-6">Don’t miss our biggest sale of the season. Limited stock available!</p>
-                        <a href="#"
-                            class="bg-yellow-400 text-black px-6 py-3 rounded-full font-medium inline-flex items-center">
-                            Shop Sale
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="ml-2" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="flex justify-center">
-                        <img src="{{ asset('assets/images/pexels-laryssa-suaid-798122-1667088.jpg') }}" alt="Sale"
-                            class="rounded-2xl shadow-xl">
-                    </div>
-                </div>
-            </div>
-
+            <x-website.swiper.slide 
+                badge="LIMITED OFFER"
+                title="Up to 50% Off Sale"
+                description="Don’t miss our biggest sale of the season. Limited stock available!"
+                buttonText="Shop Now"
+                buttonLink="/products/new-arrivals"
+                image="{{ asset('assets/images/pexels-laryssa-suaid-798122-1667088.jpg') }}"
+                imageAlt="Spring Collection"
+            />
         </div>
 
         <!-- Pagination -->

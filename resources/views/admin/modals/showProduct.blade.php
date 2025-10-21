@@ -30,8 +30,8 @@
                             <p class="font-medium" id="product-quantity"></p>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-500">Status</p>
-                            <p id="product-status"></p>
+                            <p class="text-sm  text-gray-500">Status</p>
+                            <p class="flex" id="product-status"></p>
                         </div>
                     </div>
                 </div>

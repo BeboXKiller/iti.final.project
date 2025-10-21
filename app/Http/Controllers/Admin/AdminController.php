@@ -51,7 +51,7 @@ class AdminController extends Controller
 
     public function orders()
     {
-        $orders = Order::with('user' , 'orderItems')->get();
+        $orders = Order::with('user' , 'orderItems')->paginate(10);
         return view('admin.orders',compact('orders'));
     }
     public function updateOrder(Request $request, Order $order)
