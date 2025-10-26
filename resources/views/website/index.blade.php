@@ -1,40 +1,55 @@
 @extends('website.app')
 <style>
+        .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background-color: #E5E7EB;
+        opacity: 1;
+    }
+
     .swiper-pagination-bullet-active {
         background-color: #954C2E !important;
+        transform: scale(1.2);
     }
 
-    .preloader {
-        animation: animation 1.2s infinite ease-in-out;
+    .swiper-button-next,
+    .swiper-button-prev {
+        background-color:  none;
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
     }
 
-    .swiper-slide img {
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 10px;
+        font-weight: bold;
+    }
 
-        shadow: none;
-        margin-top: 50px;
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .main-swiper {
-
-        height: 855px;
-        padding-top: 40px ;
-    }    
-    .preloader:before,
-    .preloader:after {
-        animation: animation 1.2s infinite ease-in-out;
+        border-radius: 16px;
+        background: #f8fafc;
+        height: 400px;
+        margin: 0 auto;
     }
 
-    @keyframes animation {
+    .swiper-slide {
+        height: auto;
+        display: flex;
+        align-items: center;
+    }
 
-        0%,
-        80%,
-        100% {
-            box-shadow: 0 2em 0 -1em #954C2E;
-        }
-
-        40% {
-            box-shadow: 0 2em 0 0 #954C2E;
-        }
+    /* Remove the old problematic styles */
+    .swiper-slide img {
+        shadow: none;
+        margin-top: 10px; /* Remove the margin that was breaking layout */
     }
 
     .product-item:hover {
@@ -117,9 +132,9 @@
 </div>
 @endif
 
-<section class="py-6 bg-primary">
+<section class="py-8 px-8 bg-white">
     <div class="swiper main-swiper container mx-auto rounded-2xl overflow-hidden">
-        <div class="swiper-wrapper" >
+        <div class="swiper-wrapper">
             <x-website.swiper.slide 
                 badge="NEW ARRIVAL"
                 title="Spring Collection 2024"
@@ -133,18 +148,23 @@
             <x-website.swiper.slide 
                 badge="LIMITED OFFER"
                 title="Up to 50% Off Sale"
-                description="Don’t miss our biggest sale of the season. Limited stock available!"
-                buttonText="Shop Now"
-                buttonLink="/products/new-arrivals"
+                description="Don't miss our biggest sale of the season. Limited stock available!"
+                buttonText="Shop Sale"
+                buttonLink="/products/sale"
                 image="{{ asset('assets/images/pexels-laryssa-suaid-798122-1667088.jpg') }}"
-                imageAlt="Spring Collection"
+                imageAlt="Sale Collection"
             />
         </div>
 
         <!-- Pagination -->
-        <div class="swiper-pagination"></div>
+        <div class="swiper-pagination !bottom-4"></div>
+        
+        <!-- Navigation -->
+        {{-- <div class="swiper-button-next !text-primary hover:!text-accent transition-colors duration-200 !right-4"></div>
+        <div class="swiper-button-prev !text-primary hover:!text-accent transition-colors duration-200 !left-4"></div> --}}
     </div>
 </section>
+
 
 
 <!-- Categories Section -->
@@ -170,7 +190,7 @@
                     class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 group-hover:bg-accent transition-colors">
                     <img src="https://placehold.co/60x60/254D70/EFE4D2?text=M" alt="Men" class="w-14 h-14 rounded-full">
                 </div>
-                <h3 class="font-medium text-lg">women</h3>
+                <h3 class="font-medium text-lg">Women</h3>
                 <p class="text-sm text-gray-500 mt-1">New arrivals</p>
             </a>
 
@@ -213,54 +233,12 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($products as $product)
-            @php
-            $images = json_decode($product->images, true);
-            $firstImage = $images[0] ?? null;
-            @endphp
-
-            <a href="{{ route('user.product', $product->id) }}">
-                <div class="product-item bg-white rounded-2xl p-4 shadow-md transition-all duration-300">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        @if($firstImage)
-                        <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $product->name }}"
-                            class="w-full h-64 object-cover">
-                        @else
-                        <img alt="{{ $product->name }}" class="w-full h-64 object-cover">
-                        @endif
-
-                        <div class="absolute top-3 right-3">
-                            <button
-                                class="wishlist-toggle bg-white rounded-full px-3 py-2 shadow-md hover:bg-secondary hover:text-white"
-                                data-product-id="{{ $product->id }}">
-                                ❤
-                            </button>
-                        </div>
-                        <div class="absolute top-3 left-3">
-                            <span class="bg-secondary text-white text-xs px-2 py-1 rounded">New</span>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-semibold">{{ $product->name }}</h3>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-900 font-bold mt-2">${{ $product->price }}</span>
-                        <form action="{{ route('cart.store') }}" method="POST">
-                            @csrf
-                            @method('POST')
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <button class="bg-primary text-white p-2 rounded-lg hover:bg-secondary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74A3.007 3.007 0 0 0 3.92 3H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </a>
+                <x-website.product-item 
+                :product="$product" 
+                :in-wishlist="in_array($product->id, $wishlistItems)" 
+                />
             @endforeach
         </div>
-
-
     </div>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
@@ -272,9 +250,28 @@
             el: '.swiper-pagination',
             clickable: true,
         },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
         autoplay: {
             delay: 5000,
+            disableOnInteraction: false,
         },
+        speed: 600,
     });
+</script>
+
+{{-- Add this somewhere in your layout or view --}}
+<script>
+$(document).ready(function() {
+    // Debug: Check if wishlistManager is initialized
+    console.log('WishlistManager initialized:', typeof window.wishlistManager !== 'undefined');
+    
+    // Debug: Check if click events are bound
+    $('.wishlist-toggle').on('click', function() {
+        console.log('Wishlist toggle clicked');
+    });
+});
 </script>
 @endsection

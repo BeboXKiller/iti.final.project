@@ -1,16 +1,14 @@
 @extends('website.app')
 
 @section('content')
-
-
 <main class="py-8">
     <div class="container mx-auto px-4">
         <!-- Page Title -->
         <h1 class="text-3xl font-heading font-bold mb-8">Shopping Cart</h1>
+        
         @if(session('success'))
         <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
             role="alert">
-            <!-- Icon -->
             <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -19,81 +17,34 @@
         </div>
         @endif
 
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Cart Items -->
             <div class="lg:col-span-2">
                 <div class="bg-white rounded-2xl shadow-md p-6">
-
                     @forelse ($cartItems as $item)
-                    @php
-                    $images = json_decode($item->options->images ?? '[]', true);
-                    $firstImage = $images[0] ?? null;
-                    @endphp
-
-                    <div class="flex items-center border-b border-gray-200 pb-6 mb-6">
-                        @if($item->options->image)
-                        <img src="{{ asset('storage/' . $item->options->image) }}"
-                            alt="{{ $item->name }}"
-                            class="w-24 h-30 object-cover rounded-lg">
-                        @else
-                        <img src="{{ asset('images/default.jpg') }}"
-                            alt="Default Image"
-                            class="w-24 h-30 object-cover rounded-lg">
-                        @endif
-
-
-                        <div class="flex-1 ml-6">
-                            <h3 class="font-medium text-lg mb-1">{{ $item->name }}</h3>
-                            <p class="text-gray-500 text-sm mb-2">{{ Str::limit($item->options->description, 50) }}</p>
-
-                            <form action="{{ route('cart.update', $item->rowId) }}" method="POST"
-                                class="flex items-center space-x-4">
-                                @csrf
-                                @method('PUT')
-                                <div class="flex items-center border border-gray-300 rounded-lg">
-                                    <button type="submit" name="qty" value="{{ $item->qty - 1 }}"
-                                        class="p-2 hover:bg-gray-100" @if($item->qty <= 1) disabled @endif>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor" d="M19 13H5v-2h14v2z" />
-                                            </svg>
-                                    </button>
-                                    <span class="px-4 py-2 min-w-12 text-center">{{ $item->qty }}</span>
-                                    <button type="submit" name="qty" value="{{ $item->qty + 1 }}"
-                                        class="p-2 hover:bg-gray-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 24 24">
-                                            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </form>
-
-                            <form action="{{ route('cart.destroy', $item->rowId ) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-500 hover:text-red-700 p-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                            d="M7 21q-.825 0-1.412-.587Q5 19.825 5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413Q17.825 21 17 21ZM17 6H7v13h10ZM9 17h2V8H9Zm4 0h2V8h-2ZM7 6v13Z" />
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-heading font-bold text-lg">${{ $item->subtotal() }}</p>
-                            <p class="text-gray-500 text-sm">${{ $item->price }} each</p>
-                        </div>
-                    </div>
+                        <x-cart-item :item="$item" />
                     @empty
-                    <p class="text-gray-500">Your cart is empty.</p>
+                    <div class="text-center py-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" class="mx-auto text-gray-400 mb-4">
+                            <path fill="currentColor" d="M7 22q-.825 0-1.412-.587Q5 20.825 5 20q0-.825.588-1.413Q6.175 18 7 18t1.412.587Q9 19.175 9 20q0 .825-.588 1.413Q7.825 22 7 22Zm10 0q-.825 0-1.412-.587Q15 20.825 15 20q0-.825.588-1.413Q16.175 18 17 18t1.413.587Q19 19.175 19 20q0 .825-.587 1.413Q17.825 22 17 22ZM6.15 6l2.4 5h7l2.75-5ZM5.2 4h14.75q.575 0 .875.512q.3.513.025 1.038l-3.55 6.4q-.275.5-.738.775Q16.1 13 15.55 13H8.1L7 15h12v2H7q-1.125 0-1.7-.988q-.575-.987-.05-1.962L6.6 11.6L3 4H1V2h3.25Zm3.35 7h7Z"/>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Start shopping to add items to your cart</p>
+                        <a href="{{ url('/') }}" 
+                           class="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
+                                <path fill="currentColor" d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3Zm-4 9q-.825 0-1.412-.587Q5 16.825 5 16q0-.825.588-1.413Q6.175 14 7 14t1.412.587Q9 15.175 9 16q0 .825-.588 1.413Q7.825 18 7 18Zm10 0q-.825 0-1.412-.587Q15 16.825 15 16q0-.825.588-1.413Q16.175 14 17 14t1.413.587Q19 15.175 19 16q0 .825-.587 1.413Q17.825 18 17 18ZM7 17q.75 0 1.425-.387Q9.2 16.225 9.5 15.5h6.3q.275.725.95 1.113q.675.387 1.425.387q.75 0 1.425-.387Q20 16.225 20.3 15.5h.2q.425 0 .712-.288q.288-.287.288-.712t-.288-.712Q21.125 13.5 20.7 13.5h-1.15l-3.075-5.5H8.6l-.9-1.5H3.4v2h2.95l3.5 6.075l-1.3 2.325q-.225.4-.037.825q.188.425.638.425H17.5v-2H7.75q-.075 0-.137-.05q-.063-.05-.088-.125l-.025-.075Z"/>
+                            </svg>
+                            Start Shopping
+                        </a>
+                    </div>
                     @endforelse
 
-                    <!-- Continue Shopping -->
-                    <div class="text-center mt-8">
-                        <a href="{{ url('/') }}"
-                            class="text-primary font-medium inline-flex items-center hover:underline">
+                    <!-- Continue Shopping (only show if cart has items) -->
+                    @if(count($cartItems) > 0)
+                    <div class="text-center mt-8 pt-6 border-t border-gray-200">
+                        <a href="{{ url('/home') }}"
+                            class="text-primary font-medium inline-flex items-center hover:underline transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                 class="mr-2">
                                 <path fill="currentColor"
@@ -102,43 +53,49 @@
                             Continue Shopping
                         </a>
                     </div>
+                    @endif
                 </div>
             </div>
 
             <!-- Order Summary -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-2xl shadow-md p-6 sticky top-24">
-                    <h3 class="text-xl font-heading font-bold mb-6">Order Summary</h3>
+                <div class="bg-white rounded-2xl shadow-md p-6 sticky top-24 border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h3>
 
                     <div class="space-y-4 mb-6">
                         <div class="flex justify-between">
-                            <span>Subtotal ({{ $count }} items)</span>
-                            <span class="subtotal-amount">${{ $subtotal }}</span>
+                            <span class="text-gray-600">Subtotal ({{ $count }} items)</span>
+                            <span class="font-medium text-gray-900">${{ number_format((float)$subtotal, 2) }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span>Shipping</span>
-                            <span class="text-green-600">Free</span>
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="text-green-600 font-medium">Free</span>
                         </div>
                         <div class="flex justify-between">
-                            <span>Tax</span>
-                            <span class="tax-amount">${{ $tax }}</span>
+                            <span class="text-gray-600">Tax</span>
+                            <span class="font-medium text-gray-900">${{ number_format((float)$tax, 2) }}</span>
                         </div>
                         <hr class="border-gray-200">
-                        <div class="flex justify-between font-heading font-bold text-lg">
-                            <span>Total</span>
-                            <span class="total-amount">${{ $total }}</span>
+                        <div class="flex justify-between font-bold text-lg">
+                            <span class="text-gray-900">Total</span>
+                            <span class="text-primary">${{ number_format((float)$total, 2) }}</span>
                         </div>
                     </div>
-
                     <!-- Checkout Button -->
-                    <form action="{{route ('checkout.store')}}" method="post">
+                    @if(count($cartItems) > 0)
+                    <form action="{{ route('checkout.store') }}" method="post">
                         @csrf
                         <button type="submit"
-                            onclick="return confirm('Are you sure you want to place this order?')"
-                            class="w-full mt-6 bg-secondary text-white py-3 rounded-lg hover:bg-accent">
+                            class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-accent transition-all duration-300 transform hover:scale-[1.02] shadow-md">
                             Place Your Order
                         </button>
                     </form>
+                    @else
+                    <button disabled
+                        class="w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-lg font-medium cursor-not-allowed shadow-sm">
+                        Cart is Empty
+                    </button>
+                    @endif
                 </div>
             </div>
         </div>

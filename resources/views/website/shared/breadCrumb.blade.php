@@ -1,6 +1,6 @@
-<nav class="mb-8">
+<nav  @if(Request()->is('user/account')) class="mb-8 inset-x-0 top-0" @else class="inset-x-0 top-0" @endif >
     <ol class="flex items-center space-x-2 text-sm">
-        <li><a href="{{ url('/') }}" class="text-primary hover:underline">Home</a></li>
+        <li><a href="{{ url('/home') }}" class="text-primary hover:underline">Home</a></li>
         
         @php
             $currentRoute = request()->route();

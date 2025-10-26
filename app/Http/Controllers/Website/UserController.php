@@ -4,21 +4,36 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Wishlist;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->take(5)->get();
+        $products = Product::latest()->take(4)->get();
         $categories = Category::all();
-        return view('website.index', compact('products', 'categories'));
+        // Get user's wishlist items if authenticated
+        $wishlistItems = [];
+        if (Auth::check()) {
+            $wishlistItems = Wishlist::where('user_id', Auth::id())
+                ->pluck('product_id')
+                ->toArray();
+        }
+        return view('website.index', compact('products', 'categories', 'wishlistItems'));
     }
     public function allProducts()
     {
         $products = Product::all();
-        return view('website.products', compact('products'));
+        $wishlistItems = [];
+        if (Auth::check()) {
+            $wishlistItems = Wishlist::where('user_id', Auth::id())
+                ->pluck('product_id')
+                ->toArray();
+        }
+        return view('website.products', compact('products', 'wishlistItems'));
     }
     public function account()
     {
@@ -27,7 +42,7 @@ class UserController extends Controller
 
     public function whishList()
     {
-        return view('website.whishList');
+        return view('website.wishlist');
     }
 
     public function userCart()
@@ -42,6 +57,12 @@ class UserController extends Controller
 
     public function VeiwProduct()
     {
-        return view('website.viewProduct');
+        $wishlistItems = [];
+        if (Auth::check()) {
+            $wishlistItems = Wishlist::where('user_id', Auth::id())
+                ->pluck('product_id')
+                ->toArray();
+        }
+        return view('website.viewProduct', compact('wishlistItems'));
     }
 }

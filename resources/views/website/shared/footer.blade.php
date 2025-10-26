@@ -1,10 +1,4 @@
 <!-- Footer -->
-@php
-
-    ;
-
-@endphp
-
 @if(Request()->is('/', 'home', 'user/dashboard'))
     <footer class="bg-primary bottom-0 text-white pt-12 pb-6">
         <div class="container mx-auto px-4">
@@ -81,7 +75,7 @@
     </footer>
 @else
 
-    <footer class="bg-primary text-white pt-12 pb-6 mt-12">
+    <footer class="bg-primary inset-x-0 bottom-0 text-white pt-12 pb-6 mt-12">
         <div class="container mx-auto px-4">
             <div class="text-center">
                 <p>© 2025 StyleMart. All rights reserved.</p>

@@ -1,48 +1,44 @@
 @extends('website.app')
 
 @section('content')
-    <style>
-        .product-item:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-    @if(session('error'))
+<main class="py-8">
+    <div class="container mx-auto px-4">
+        @if(session('error'))
         <div class="flex items-center bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
             role="alert">
-            <!-- Icon -->
             <svg class="w-6 h-6 mr-2 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
             <span class="font-medium">{{ session('error') }}</span>
         </div>
-    @endif
+        @endif
 
-    @if(session('success'))
+        @if(session('success'))
         <div class="flex items-center bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-md shadow-md mb-6 animate-fade-in"
             role="alert">
-            <!-- Icon -->
             <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
             <span class="font-medium">{{ session('success') }}</span>
         </div>
-    @endif
-    <div class="container mx-auto px-4 py-8">
+        @endif
+
         <!-- Page Header -->
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-heading font-bold">My Wishlist</h1>
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-3xl font-bold text-gray-900">My Wishlist</h1>
                 <p class="text-gray-600 mt-2">
                     <span class="wishlist-count">{{ $wishlists->count() }}</span>
                     {{ Str::plural('item', $wishlists->count()) }} saved for later
                 </p>
             </div>
+            
             @if($wishlists->count() > 0)
-                <div class="flex space-x-3">
-                    <button class="wishlist-clear bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300">
+                <div class="flex flex-wrap gap-3">
+                    <button class="wishlist-clear bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors duration-200">
                         Clear All
                     </button>
-                    <button class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent"
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-accent transition-colors duration-200"
                         onclick="shareWishlist()">
                         Share Wishlist
                     </button>
@@ -51,111 +47,35 @@
         </div>
 
         @if($wishlists->count() > 0)
-            <div class="wishlist-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Wishlist Grid -->
+            <div class="wishlist-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 @foreach($wishlists as $wishlist)
                     @php
                         $product = $wishlist->product;
-                        $images = json_decode($product->images, true);
-                        $firstImage = $images[0] ?? null;
                     @endphp
-                    <div class="product-item wishlist-item bg-white rounded-2xl p-4 shadow-md transition-all duration-300">
-                        <div class="relative overflow-hidden rounded-xl mb-4">
-                            @if($firstImage)
-                                <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $product->name }}"
-                                    class="w-full h-64 object-cover">
-                            @else
-                                <img src="https://placehold.co/300x400/EFE4D2/254D70?text=No+Image" alt="{{ $product->name }}"
-                                    class="w-full h-64 object-cover">
-                            @endif
-
-                            <div class="absolute top-3 right-3">
-                                <button class="wishlist-remove bg-red-500 text-white rounded-full p-2 shadow-md hover:bg-red-600"
-                                    data-product-id="{{ $product->id }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div class="absolute top-3 left-3">
-                                @if($product->quantity > 10)
-                                    <span class="bg-green-500 text-white text-xs px-2 py-1 rounded">In Stock</span>
-                                @elseif($product->quantity > 0)
-                                    <span class="bg-yellow-500 text-white text-xs px-2 py-1 rounded">Low Stock</span>
-                                @else
-                                    <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Out of Stock</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <h3 class="font-medium mb-2">{{ $product->name }}</h3>
-
-                        {{-- Optional: Add ratings if you have them
-                        <div class="flex items-center mb-2">
-                            <div class="flex text-secondary">
-                                @for($i = 1; $i <= 5; $i++) <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    viewBox="0 0 16 16">
-                                    <path fill="currentColor"
-                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.283.95l-3.523 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                    @endfor
-                            </div>
-                            <span class="text-xs text-gray-500 ml-1">({{ rand(10, 50) }})</span>
-                        </div>
-                        --}}
-
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="font-heading font-bold text-lg">${{ number_format($product->price, 2) }}</span>
-                            <span class="text-sm text-gray-500">Added {{ $wishlist->created_at->diffForHumans() }}</span>
-                        </div>
-
-                        <div class="flex space-x-2">
-                            @if($product->quantity > 0)
-                                <form action="{{ route('cart.store') }}" method="POST" class="w-100">
-                                    @csrf
-                                    @method('POST')
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="redirect_back" value="1">
-                                    <button type="submit"
-                                        class="bg-primary text-white py-2 px-14 w-full rounded-md font-medium hover:bg-accent transition">
-                                        Add to Cart
-                                    </button>
-                                </form>
-                            @else
-                                <button class="flex-1 bg-gray-300 text-gray-500 py-2 rounded-lg font-medium cursor-not-allowed"
-                                    disabled>
-                                    Out of Stock
-                                </button>
-                            @endif
-
-                            <a href="{{ route('user.product' , $product) }}" class="bg-gray-200 text-gray-700 pt-3 px-3 rounded-lg hover:bg-gray-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3z" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
+                    <x-website.product-item 
+                        :product="$product" 
+                        :in-wishlist="true" 
+                    />
                 @endforeach
             </div>
 
             <!-- Bulk Actions -->
-            <div class="mt-8 bg-white rounded-2xl shadow-md p-6">
-                <h3 class="text-xl font-heading font-bold mb-4">Wishlist Actions</h3>
-                <div class="flex flex-wrap gap-4">
-                    <form action="{{route('cart.addAllFromWishlist')}}" method="post">
+            <div class="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Wishlist Actions</h3>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <form action="{{ route('cart.addAllFromWishlist') }}" method="POST" class="flex-1">
                         @csrf
-                        <button
-                            class="add-all-to-cart bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent">
+                        <button type="submit"
+                            class="w-full bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent transition-all duration-300 transform hover:scale-[1.02] shadow-md">
                             Add All to Cart
                         </button>
                     </form>
-                    <button class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent"
+                    <button class="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent transition-colors duration-200"
                         onclick="moveToNewList()">
                         Create New List
                     </button>
-                    <button class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300"
+                    <button class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors duration-200"
                         onclick="exportWishlist()">
                         Export Wishlist
                     </button>
@@ -165,81 +85,79 @@
             <!-- Empty State -->
             <div id="empty-wishlist" class="text-center py-16">
                 <div class="max-w-md mx-auto">
-                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
-                            class="text-gray-400">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="text-gray-400">
                             <path fill="currentColor"
-                                d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z" />
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-heading font-bold mb-2">Your wishlist is empty</h3>
-                    <p class="text-gray-600 mb-6">Save items you love by clicking the heart icon</p>
+                    <h3 class="text-xl font-bold text-gray-600 mb-2">Your wishlist is empty</h3>
+                    <p class="text-gray-500 mb-6">Save items you love by clicking the heart icon on products</p>
                     <a href="{{ route('home') }}"
-                        class="bg-primary text-white px-6 py-3 rounded-lg font-medium inline-block hover:bg-accent">
+                        class="inline-flex items-center bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-accent transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="mr-2">
+                            <path fill="currentColor" d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3Zm-4 9q-.825 0-1.412-.587Q5 16.825 5 16q0-.825.588-1.413Q6.175 14 7 14t1.412.587Q9 15.175 9 16q0 .825-.588 1.413Q7.825 18 7 18Zm10 0q-.825 0-1.412-.587Q15 16.825 15 16q0-.825.588-1.413Q16.175 14 17 14t1.413.587Q19 15.175 19 16q0 .825-.587 1.413Q17.825 18 17 18ZM7 17q.75 0 1.425-.387Q9.2 16.225 9.5 15.5h6.3q.275.725.95 1.113q.675.387 1.425.387q.75 0 1.425-.387Q20 16.225 20.3 15.5h.2q.425 0 .712-.288q.288-.287.288-.712t-.288-.712Q21.125 13.5 20.7 13.5h-1.15l-3.075-5.5H8.6l-.9-1.5H3.4v2h2.95l3.5 6.075l-1.3 2.325q-.225.4-.037.825q.188.425.638.425H17.5v-2H7.75q-.075 0-.137-.05q-.063-.05-.088-.125l-.025-.075Z"/>
+                        </svg>
                         Start Shopping
                     </a>
                 </div>
             </div>
         @endif
     </div>
+</main>
 
-    <script>
-        // Additional functions for wishlist page
-        function shareWishlist() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'My StyleMart Wishlist',
-                    text: 'Check out my favorite items from StyleMart!',
-                    url: window.location.href
-                });
-            } else {
-                // Fallback - copy to clipboard
-                navigator.clipboard.writeText(window.location.href).then(() => {
+<script>
+    // Additional functions for wishlist page
+    function shareWishlist() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Wishlist',
+                text: 'Check out my favorite items!',
+                url: window.location.href
+            });
+        } else {
+            // Fallback - copy to clipboard
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                if (window.wishlistManager) {
                     window.wishlistManager.showNotification('Wishlist link copied to clipboard!', 'success');
-                });
-            }
+                } else {
+                    alert('Wishlist link copied to clipboard!');
+                }
+            });
         }
+    }
 
-        function quickView(productId, productName) {
-            // You can implement a modal or redirect to product page
-            window.wishlistManager.showNotification(`Quick view for ${productName} would open here`, 'info');
-            // Example: window.open(`/products/${productId}`, '_blank');
-        }
-
-        function moveToNewList() {
-            const listName = prompt('Enter name for new wishlist:');
-            if (listName) {
+    function moveToNewList() {
+        const listName = prompt('Enter name for new wishlist:');
+        if (listName) {
+            if (window.wishlistManager) {
                 window.wishlistManager.showNotification(`New wishlist "${listName}" created!`, 'success');
+            } else {
+                alert(`New wishlist "${listName}" created!`);
             }
         }
+    }
 
-        function exportWishlist() {
-            const items = Array.from(document.querySelectorAll('.wishlist-item h3')).map(h3 => h3.textContent);
-            const csvContent = "data:text/csv;charset=utf-8," + items.join('\n');
-            const link = document.createElement("a");
-            link.setAttribute("href", encodeURI(csvContent));
-            link.setAttribute("download", "my_wishlist.csv");
-            link.click();
+    function exportWishlist() {
+        const items = Array.from(document.querySelectorAll('.product-item h3')).map(h3 => h3.textContent);
+        const csvContent = "data:text/csv;charset=utf-8," + items.join('\n');
+        const link = document.createElement("a");
+        link.setAttribute("href", encodeURI(csvContent));
+        link.setAttribute("download", "my_wishlist.csv");
+        link.click();
+        if (window.wishlistManager) {
             window.wishlistManager.showNotification('Wishlist exported successfully!', 'success');
+        } else {
+            alert('Wishlist exported successfully!');
         }
+    }
 
-        // Add to cart functionality (integrate with your existing cart system)
-        $(document).on('click', '.add-to-cart', function () {
-            const productId = $(this).data('product-id');
-            const button = $(this);
-
-            // Replace this with your actual add to cart implementation
-            button.prop('disabled', true).text('Adding...');
-
-            // Simulate API call
-            setTimeout(() => {
-                button.removeClass('bg-primary').addClass('bg-green-500').text('Added!');
-                window.wishlistManager.showNotification('Item added to cart!', 'success');
-
-                setTimeout(() => {
-                    button.addClass('bg-primary').removeClass('bg-green-500').text('Add to Cart').prop('disabled', false);
-                }, 2000);
-            }, 500);
-        });
-    </script>
+    // Initialize when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Make sure wishlist manager is initialized
+        if (window.wishlistManager) {
+            window.wishlistManager.updateWishlistCount({{ $wishlists->count() }});
+        }
+    });
+</script>
 @endsection

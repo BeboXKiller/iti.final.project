@@ -67,7 +67,7 @@
                             @if(Auth::user()->wishlist_count > 0)
                                 <span
                                     class="wishlist-badge absolute -top-0.5 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-                                    {{ Auth::user()->wishlist_count }}
+                                    {{ Auth::user()->wishlists()->count() }}
                                 </span>
                             @endif
                         @endauth

@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StyleMart - Clothing Store</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="user-authenticated" content="{{ Auth::check() ? 'true' : 'false' }}">
+    <meta name="user-authenticated" content="{{ auth()->check() ? 'true' : 'false' }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
