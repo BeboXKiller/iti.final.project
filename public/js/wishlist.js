@@ -45,38 +45,39 @@ class WishlistManager {
     }
 
     toggleWishlist(element) {
-        const $element = $(element);
-        const productId = $element.data('product-id');
+    const $element = $(element);
+    const productId = $element.data('product-id');
 
-        if (!this.isAuthenticated()) {
-            this.showLoginPrompt();
-            return;
-        }
+    if (!this.isAuthenticated()) {
+        this.showLoginPrompt();
+        return;
+    }
 
-        // Add loading state
-        $element.prop('disabled', true);
-        
-        $.ajax({
-            url: '/user/wishlist/toggle',
-            method: 'POST',
-            data: { product_id: productId },
-            success: (response) => {
-                if (response.success) {
-                    this.updateWishlistButton($element, response.in_wishlist);
-                    this.updateWishlistCount(response.wishlist_count);
-                    this.showNotification(response.message, 'success');
-                } else {
-                    this.showNotification(response.message, 'error');
-                }
-            },
-            error: (xhr) => {
-                this.showNotification('An error occurred. Please try again.', 'error');
-                console.error('Wishlist toggle error:', xhr);
-            },
-            complete: () => {
-                $element.prop('disabled', false);
+    // Add loading state
+    $element.prop('disabled', true);
+    
+    $.ajax({
+        url: '/user/wishlist/toggle',
+        method: 'POST',
+        data: { product_id: productId },
+        success: (response) => {
+            console.log('Toggle response:', response); // Debug line
+            if (response.success) {
+                this.updateWishlistButton($element, response.in_wishlist);
+                this.updateWishlistCount(response.wishlist_count);
+                this.showNotification(response.message, 'success');
+            } else {
+                this.showNotification(response.message, 'error');
             }
-        });
+        },
+        error: (xhr) => {
+            console.error('Wishlist toggle error:', xhr);
+            this.showNotification('An error occurred. Please try again.', 'error');
+        },
+        complete: () => {
+            $element.prop('disabled', false);
+        }
+    });
     }
 
     removeFromWishlist(element) {
@@ -166,18 +167,19 @@ class WishlistManager {
     }
 
     updateWishlistButton(element, inWishlist) {
-        const $element = $(element);
-        const $icon = $element.find('svg path');
-        
-        if (inWishlist) {
-            $element.addClass('text-red-500 bg-red-50').removeClass('text-gray-400');
-            // Update icon to filled heart
-            $icon.attr('d', 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-        } else {
-            $element.removeClass('text-red-500 bg-red-50').addClass('text-gray-400');
-            // Update icon to outline heart
-            $icon.attr('d', 'M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z');
-        }
+    const $element = $(element);
+    const $icon = $element.find('svg');
+    
+    if (inWishlist) {
+        $element.removeClass('bg-white text-gray-400 hover:bg-secondary hover:text-white')
+                .addClass('text-red-500 bg-red-50 hover:bg-red-500 hover:text-white');
+        $icon.attr('fill', 'currentColor').attr('stroke-width', '0');
+    } else {
+        $element.removeClass('text-red-500 bg-red-50 hover:bg-red-500 hover:text-white')
+                .addClass('bg-white text-gray-400 hover:bg-secondary hover:text-white');
+        $icon.attr('fill', 'none').attr('stroke-width', '2');
+    }
+    $element.attr('data-in-wishlist', inWishlist.toString());
     }
 
     updateWishlistCount(count = null) {
@@ -193,7 +195,7 @@ class WishlistManager {
             }
         } else {
             // Fetch current count
-            $.get('/wishlist/count', (response) => {
+            $.get('wishlist/count', (response) => {
                 this.updateWishlistCount(response.count);
             });
         }

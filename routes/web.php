@@ -67,8 +67,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 // ====== Default Redirect ======
 Route::get('/home', function () {
-    if (auth()->check()) {
-        $role = auth()->user()->role;
+    if (Auth::check()) {
+        $role = Auth::user()->role;
         if ($role === 'admin') return redirect()->route('admin.dashboard');
         else return redirect()->route('user.dashboard');
     }

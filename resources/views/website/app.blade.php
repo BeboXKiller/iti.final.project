@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 @include('website.shared.header')
 
-<body class="font-sans text-gray-700 bg-light">
+<body class="font-sans h-dvh flex flex-col text-gray-700 bg-light justify-between">
 
     <!-- Preloader -->
     <div class="preloader-wrapper fixed inset-0 bg-white z-50 flex items-center justify-center">
@@ -18,7 +18,7 @@
         @if (!Request()->is('/', 'home', 'user/dashboard'))
 
             <!-- Breadcrumb -->
-            <div class="container mx-auto px-4">
+            <div class="container mx-auto px-4 flex flex-col justify-between">
                 @include('website.shared.breadCrumb')
                 @yield('content')
 

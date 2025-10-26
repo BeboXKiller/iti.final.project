@@ -96,9 +96,9 @@
 
                                     @if ($firstImage)
                                         <img src="{{ asset('storage/' . $firstImage) }}"
-                                             style="width: 300px; height: 200px;"
+                                             style="width: 150px; height: 200px;"
                                              alt="{{ $product->name }}"
-                                             class="w-10 mr-6 rounded-xl h-10 object-cover">
+                                             class="w-10 mr-6 rounded-xl h-10 object-fit">
                                     @else
                                         <img src="{{ asset('assets/images/default-product.png') }}"
                                              alt="Image Not Found"

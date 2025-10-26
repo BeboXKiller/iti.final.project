@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Wishlist;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use app\Http\Controllers\Website\WishlistController;
 use Illuminate\Http\Request;
@@ -19,10 +21,18 @@ class CartController extends Controller
     public function index()
     {
         $cartItems = Cart::content();
-        $subtotal = Cart::subtotal(2, '.', ',');
-        $tax = Cart::tax(2, '.', ',');
-        $total = Cart::total(2, '.', ',');
+        
+        // Get raw numbers without formatting first
+        $rawSubtotal = (float) Cart::subtotal(2, '.', '');
+        $rawTax = (float) Cart::tax(2, '.', '');
+        $rawTotal = (float) Cart::total(2, '.', '');
         $count = Cart::count();
+        
+        // Format for display
+        $subtotal = number_format($rawSubtotal, 2, '.', ',');
+        $tax = number_format($rawTax, 2, '.', ',');
+        $total = number_format($rawTotal, 2, '.', ',');
+        
         return view('website.userCart', compact('cartItems', 'subtotal', 'tax', 'total', 'count'));
     }
 
@@ -38,36 +48,37 @@ class CartController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $product = Product::findOrFail($request->product_id);
-    $qty = (int) $request->input('qty', 1);
+    {
+        $product = Product::findOrFail($request->product_id);
+        $qty = (int) $request->input('qty', 1);
 
-    // Optional: prevent adding more than available stock
-    $qty = min($qty, $product->quantity);
+        // Prevent adding more than available stock
+        $qty = min($qty, $product->quantity);
 
-    // فك الصور وخد أول صورة
-    $images = json_decode($product->images, true);
-    $firstImage = $images[0] ?? null;
+        $images = json_decode($product->images, true);
+        $firstImage = $images[0] ?? null;
 
-    Cart::add(
-        $product->id,
-        $product->name,
-        $qty,
-        $product->price,
-        0,
-        [
-            'image'   => $firstImage,              // ✅ أول صورة
-            'details' => $product->description,
-        ]
-    );
+        // Ensure price is properly formatted as float
+        $price = (float) $product->price;
 
-    if ($request->has('redirect_back')) {
-        return redirect()->back()->with('success', 'Added To Cart successfully');
+        Cart::add(
+            $product->id,
+            $product->name,
+            $qty,
+            $price, // Use the properly casted price
+            0,
+            [
+                'image'   => $firstImage,
+                'details' => $product->description,
+            ]
+        );
+
+        if ($request->has('redirect_back')) {
+            return redirect()->back()->with('success', 'Added To Cart successfully');
+        }
+
+        return redirect()->route('styleMart')->with('success', 'Added To Cart successfully');
     }
-
-    return redirect()->route('styleMart')->with('success', 'Added To Cart successfully');
-}
-
 
 
     /**
@@ -105,46 +116,83 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Product Removed');
     }
 
-    public function addAllFromWishlist()
+    public function addAllFromWishlist(Request $request)
     {
-        $wishlistItems = auth()->user()->wishlists()->get();
-        $added = 0;
-        foreach ($wishlistItems as $wishlistItem) {
-            $product = $wishlistItem->product;
+        try {
+            $wishlistItems = Wishlist::with('product')
+                ->where('user_id', Auth::id())
+                ->get();
 
-            if ($product && $product->quantity > 0) {
-                Cart::add(
-                    $product->id,
-                    $product->name,
-                    1,
-                    $product->price,
-                    0,
-                    [
-                        'image' => $product->images
-                            ? json_decode($product->images, true)[0] ?? null
-                            : null,
-                        'description' => $product->description,
-                    ]
-                );
-                $added++;
+            $addedCount = 0;
+            $outOfStockCount = 0;
+
+            foreach ($wishlistItems as $wishlistItem) {
+                $product = $wishlistItem->product;
+                
+                if ($product && $product->quantity > 0) {
+                    $existingCartItem = Cart::search(function ($cartItem, $rowId) use ($product) {
+                        return $cartItem->id == $product->id;
+                    });
+
+                    if ($existingCartItem->isEmpty()) {
+                        $images = json_decode($product->images, true);
+                        $firstImage = $images[0] ?? null;
+
+                        // Ensure price is properly cast to float
+                        $price = (float) $product->price;
+
+                        Cart::add(
+                            $product->id,
+                            $product->name,
+                            1,
+                            $price, // Use the properly casted price
+                            0,
+                            [
+                                'image'   => $firstImage,
+                                'details' => $product->description,
+                            ]
+                        );
+                        $addedCount++;
+                    }
+                } else {
+                    $outOfStockCount++;
+                }
             }
-        }
 
-        if ($added === 0) {
-            return redirect()->back()->with('error', 'No available items to add to cart.');
-        }
+            // if ($addedCount > 0) {
+            //     Wishlist::where('user_id', Auth::id())->delete();
+            // }
 
-        return redirect()->back()->with('success', "$added item(s) have been added to your cart.");
+            $message = "{$addedCount} items added to cart successfully!";
+            if ($outOfStockCount > 0) {
+                $message .= " {$outOfStockCount} items were out of stock.";
+            }
+
+            return redirect()->route('cart.index')->with('success', $message);
+
+        } catch (\Exception $e) {
+            \Log::error('Add all from wishlist error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to add items to cart. Please try adding them individually.');
+        }
+    }
+    /**
+     * Get the first product image
+     */
+    private function getFirstProductImage($product)
+    {
+        $images = json_decode($product->images, true);
+        return $images[0] ?? null;
     }
 
 
     public function placeOrder(Request $request)
     {
-        $total = str_replace(',', '', Cart::total(2, '.', ','));
-
+        // Get the raw total without formatting
+        $rawTotal = (float) Cart::total(2, '.', '');
+        
         $order = Order::create([
-            'user_id'      => auth()->user()->id,
-            'total_amount' => $total,
+            'user_id'      => Auth::id(),
+            'total_amount' => $rawTotal, // Use the raw float value
             'status'       => 'pending',
         ]);
 
@@ -153,12 +201,12 @@ class CartController extends Controller
                 'order_id'   => $order->id,
                 'product_id' => $item->id,
                 'quantity'   => $item->qty,
-                'price'      => $item->price,
+                'price'      => (float) $item->price, // Ensure price is float
             ]);
         }
 
         Cart::destroy();
 
-        return redirect()->route('styleMart')->with('success',  'Order placed successfully!');
+        return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
 }

@@ -22,7 +22,13 @@ class WishlistController extends Controller
             ->latest()
             ->get();
 
-        return view('website.wishlist', compact('wishlists'));
+        $wishlistItems = [];
+        if (Auth::check()) {
+            $wishlistItems = Wishlist::where('user_id', Auth::id())
+                ->pluck('product_id')
+                ->toArray();
+        }
+        return view('website.wishlist', compact('wishlists', 'wishlistItems'));
     }
 
     /**
@@ -146,10 +152,15 @@ class WishlistController extends Controller
     /**
      * Get wishlist count for authenticated user.
      */
+    /**
+ * Get wishlist count for authenticated user.
+ */
     public function count(): JsonResponse
     {
+        $count = Wishlist::where('user_id', Auth::id())->count();
+        
         return response()->json([
-            'count' => Auth::user()->wishlist_count
+            'count' => $count
         ]);
     }
 
