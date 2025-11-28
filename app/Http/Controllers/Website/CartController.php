@@ -23,9 +23,10 @@ class CartController extends Controller
         $cartItems = Cart::content();
         
         // Get raw numbers without formatting first
-        $rawSubtotal = (float) Cart::subtotal(2, '.', '');
-        $rawTax = (float) Cart::tax(2, '.', '');
-        $rawTotal = (float) Cart::total(2, '.', '');
+        // Cart methods return formatted strings, so we must strip commas before casting to float
+        $rawSubtotal = (float) str_replace(',', '', Cart::subtotal(2, '.', ','));
+        $rawTax = (float) str_replace(',', '', Cart::tax(2, '.', ','));
+        $rawTotal = (float) str_replace(',', '', Cart::total(2, '.', ','));
         $count = Cart::count();
         
         // Format for display
@@ -188,7 +189,10 @@ class CartController extends Controller
     public function placeOrder(Request $request)
     {
         // Get the raw total without formatting
-        $rawTotal = (float) Cart::total(2, '.', '');
+        // Cart::total() returns a formatted string with commas (e.g., "1,210.00")
+        // We must strip commas before casting to float, otherwise "1,210.00" becomes 1.00
+        $formattedTotal = Cart::total(2, '.', ',');
+        $rawTotal = (float) str_replace(',', '', $formattedTotal);
         
         $order = Order::create([
             'user_id'      => Auth::id(),
@@ -197,10 +201,12 @@ class CartController extends Controller
         ]);
 
         foreach (Cart::content() as $item) {
+            // The cart item's 'id' property contains the product ID
+            // Explicitly cast quantity to integer to match database schema
             OrderItem::create([
                 'order_id'   => $order->id,
-                'product_id' => $item->id,
-                'quantity'   => $item->qty,
+                'product_id' => (int) $item->id, // Cart item ID is the product ID
+                'quantity'   => (int) $item->qty, // Ensure quantity is integer
                 'price'      => (float) $item->price, // Ensure price is float
             ]);
         }
