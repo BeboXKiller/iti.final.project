@@ -65,7 +65,7 @@
                     <div class="space-y-4 mb-6">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal ({{ $count }} items)</span>
-                            <span class="font-medium text-gray-900">${{ number_format((float)$subtotal, 2) }}</span>
+                            <span class="font-medium text-gray-900">${{ $subtotal }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Shipping</span>
@@ -73,12 +73,12 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Tax</span>
-                            <span class="font-medium text-gray-900">${{ number_format((float)$tax, 2) }}</span>
+                            <span class="font-medium text-gray-900">${{ $tax }}</span>
                         </div>
                         <hr class="border-gray-200">
                         <div class="flex justify-between font-bold text-lg">
                             <span class="text-gray-900">Total</span>
-                            <span class="text-primary">${{ number_format((float)$total, 2) }}</span>
+                            <span class="text-primary">${{ $total }}</span>
                         </div>
                     </div>
                     <!-- Checkout Button -->
